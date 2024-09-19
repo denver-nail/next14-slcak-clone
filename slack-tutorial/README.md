@@ -2,15 +2,27 @@
 
 技术栈
 
-1. [Bun](https://bun.sh/)
-2. [NextJS14](https://nextjs.org/docs/getting-started/installation)
-3. [shadcn/ui](https://ui.shadcn.com/docs/installation/next)
-4. [React Icons (react-icons.github.io)](https://react-icons.github.io/react-icons/)
-5. [Convex | The fullstack TypeScript development platform](https://www.convex.dev/)
+1. [NextJS14](https://nextjs.org/docs/getting-started/installation)
+2. [shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+3. [React Icons (react-icons.github.io)](https://react-icons.github.io/react-icons/)
+4. [Convex | The fullstack TypeScript development platform](https://www.convex.dev/)
+5. [Convex Auth - Convex Auth](https://labs.convex.dev/auth)
 
-搭建环境问题：
+搭建环境：
 
-1. 运行` bun run dev`无效，使用`npm run dev`暂代
+执行命令配置nextjs
+
+```
+npx create-next-app@latest
+```
+
+执行命令配置shadcnUI
+
+```
+npx shadcn@latest init
+```
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_10-43-53.png)
 
 ## 使用Convex数据库
 
@@ -39,3 +51,13 @@
  npx convex dev
 ```
 
+## 使用convexAuth
+
+使用命令
+
+```
+npm install @convex-dev/auth @auth/core
+npx @convex-dev/auth
+```
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_10-05-45.png)
