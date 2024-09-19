@@ -1,4 +1,5 @@
 //注册卡片组件
+import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
@@ -19,7 +20,15 @@ interface SignInCardProps {
 export const SignInCard = ({ setState }: SignInCardProps) => {
   const [email, setEmail] = useState("");
   const [pasword, setPassword] = useState("");
-
+  const [pending, setPending] = useState(false);
+  //使用convexAuth提供的的方法来注册用户(第三方平台)
+  const { signIn } = useAuthActions();
+  const onProviderSignIn = (value: "github" | "google") => {
+    setPending(true);
+    signIn(value).finally(() => {
+      setPending(false);
+    });
+  };
   return (
     <Card className=" w-full h-full p-8">
       <CardHeader className="px-0 pt-0">
@@ -31,7 +40,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
       <CardContent className="space-y-5 px-0 pb-0">
         <form className="space-y-2.5">
           <Input
-            disabled={false}
+            disabled={pending}
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
@@ -41,7 +50,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
             required
           ></Input>
           <Input
-            disabled={false}
+            disabled={pending}
             value={pasword}
             onChange={(e) => {
               setPassword(e.target.value);
@@ -59,9 +68,11 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           <Button
             className="w-full relative"
             variant="outline"
-            onClick={() => {}}
+            onClick={() => {
+              onProviderSignIn("google");
+            }}
             size="lg"
-            disabled={false}
+            disabled={pending}
           >
             <FcGoogle className="size-5 absolute top-3 left-2.5 "></FcGoogle>
             Continue with Google
@@ -69,9 +80,11 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           <Button
             className="w-full relative"
             variant="outline"
-            onClick={() => {}}
+            onClick={() => {
+              onProviderSignIn("github");
+            }}
             size="lg"
-            disabled={false}
+            disabled={pending}
           >
             <FaGithub className="size-5 absolute top-3 left-2.5 "></FaGithub>
             Continue with Github
