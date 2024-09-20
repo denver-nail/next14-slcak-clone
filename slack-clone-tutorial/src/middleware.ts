@@ -7,13 +7,8 @@ import {
 //配置 哪些路由需要在 middleware.ts 中进行认证:
 const isPublicPage = createRouteMatcher(["/auth"]);
 export default convexAuthNextjsMiddleware((request) => {
-  console.log("-----------------------------");
-  console.log(isPublicPage(request));
-  console.log(isAuthenticatedNextjs()); //这个永远是false
-  console.log("================================");
   //经过/auth和通过验证的用户到重定向到其他页面
   if (isPublicPage(request) && isAuthenticatedNextjs()) {
-    console.log("hello");
     return nextjsMiddlewareRedirect(request, "/");
   }
 
@@ -23,7 +18,6 @@ export default convexAuthNextjsMiddleware((request) => {
     return nextjsMiddlewareRedirect(request, "/auth");
   }
 });
-
 export const config = {
   // The following matcher runs middleware on all routes
   // except static assets.

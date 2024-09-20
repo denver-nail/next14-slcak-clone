@@ -14,20 +14,36 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@radix-ui/react-separator";
 import { SignFlow } from "../types";
 import { useState } from "react";
+import { TriangleAlert } from "lucide-react";
 interface SignInCardProps {
   setState: (state: SignFlow) => void;
 }
 export const SignInCard = ({ setState }: SignInCardProps) => {
   const [email, setEmail] = useState("");
-  const [pasword, setPassword] = useState("");
+  const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
-  //使用convexAuth提供的的方法来注册用户(第三方平台)
+  const [error, setError] = useState("");
+  //使用convexAuth提供的的方法来注册或登录
   const { signIn } = useAuthActions();
+  //使用convexAuth提供的的方法来注册用户(第三方平台)
   const onProviderSignIn = (value: "github" | "google") => {
     setPending(true);
     signIn(value).finally(() => {
       setPending(false);
     });
+  };
+  //使用convexAuth提供的方法来注册用户(邮箱密码)
+  const onPasswordSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPending(true);
+    //第一个参数是登录或注册的方式，第二个参数是表单数据，其中要设置flow字段来分辨‘注册’和‘登录’
+    signIn("password", { email, password, flow: "signIn" })
+      .catch(() => {
+        setError("😱Invalid email or password!");
+      })
+      .finally(() => {
+        setPending(false);
+      });
   };
   return (
     <Card className=" w-full h-full p-8">
@@ -37,8 +53,16 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           Use your email or another service to continue.
         </CardDescription>
       </CardHeader>
+      {/* 错误提示 */}
+      {error && (
+        <div className="bg-destructive/15 p-3 rounded-md flex items-center gap-x-2 text-sm text-destructive mb-6">
+          <TriangleAlert className="size-4" />
+          <p>{error}</p>
+        </div>
+      )}
+      {/* 表单部分 */}
       <CardContent className="space-y-5 px-0 pb-0">
-        <form className="space-y-2.5">
+        <form className="space-y-2.5" onSubmit={onPasswordSignIn}>
           <Input
             disabled={pending}
             value={email}
@@ -51,7 +75,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
           ></Input>
           <Input
             disabled={pending}
-            value={pasword}
+            value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
