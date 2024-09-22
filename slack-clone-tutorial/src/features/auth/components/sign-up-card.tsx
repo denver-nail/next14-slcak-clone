@@ -19,6 +19,7 @@ interface SignUpCardProps {
   setState: (state: SignFlow) => void;
 }
 export const SignUpCard = ({ setState }: SignUpCardProps) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPasword, setConfirmPassword] = useState("");
@@ -42,9 +43,11 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
     }
     setPending(true);
     //第一个参数是登录或注册的方式，第二个参数是表单数据，其中要设置flow字段来分辨‘注册’和‘登录’
-    signIn("password", { email, password, flow: "signUp" })
-      .catch(() => {
-        setError("😱Something went wrong!");
+    signIn("password", { name, email, password, flow: "signUp" })
+      .catch((error) => {
+        console.log(error instanceof SyntaxError);
+
+        setError("Invalid email or password");
       })
       .finally(() => {
         setPending(false);
@@ -69,11 +72,20 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
         <form onSubmit={onPasswordSignUp} className="space-y-2.5">
           <Input
             disabled={pending}
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+            placeholder="Name"
+            required
+          ></Input>
+          <Input
+            disabled={pending}
             value={email}
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            placeholder="email"
+            placeholder="Email"
             type="email"
             required
           ></Input>
