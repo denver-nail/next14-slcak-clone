@@ -572,3 +572,102 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
 ```
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-22_16-20-18.png)
+
+## 数据操作
+
+### 查询用户数据
+
+参考文档：
+
+[server - Convex Auth](https://labs.convex.dev/auth/api_reference/server#getauthuserid)
+
+[Queries | Convex Developer Hub](https://docs.convex.dev/functions/query-functions#caching--reactivity--consistency)
+
+**convex/users.ts**
+
+```ts
+//当前文件的名字与之后的api调用相关
+import { query } from "./_generated/server";
+import { getAuthUserId } from "@convex-dev/auth/server";
+//获取当前用户信息的接口
+export const current = query({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) {
+      return null;
+    }
+    return await ctx.db.get(userId);
+  },
+});
+
+```
+
+**src\features\auth\hooks\use-current-user.ts**
+
+```js
+import { useQuery } from "convex/react";
+import { api } from "../../../../convex/_generated/api";
+//查询当前用户信息的钩子
+//根据当前查询的结果返回对应的用户信息和加载状态
+export const useCurrentUser = () => {
+  const data = useQuery(api.users.current);
+  const isLoading = data === undefined;
+  return { data, isLoading };
+};
+
+```
+
+**src\features\auth\components\user-button.tsx**
+
+```tsx
+"use client";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuGroup,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { useCurrentUser } from "../hooks/use-current-user";
+import { Loader, LogOut } from "lucide-react";
+import { useAuthActions } from "@convex-dev/auth/react";
+export const UserButton = () => {
+  //使用convexAuth的登出接口函数
+  const { signOut } = useAuthActions();
+  //调用封装的获取当前用户信息的hook
+  const { data: user, isLoading } = useCurrentUser();
+  if (isLoading) {
+    return <Loader className="size-4 animate-spin text-muted-foreground" />;
+  }
+  if (!user) {
+    return null;
+  }
+  const { image, name } = user;
+  //设置头像图片展示失败后显示的文字内容
+  const avatarFallback = name!.charAt(0).toUpperCase();
+  return (
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger className="outline-none relative">
+        <Avatar className="size-10 hover:opacity-75 transition">
+          <AvatarImage alt={name} src={image} />
+          <AvatarFallback className="bg-[#ff9999] text-[#444f5a] font-bold ">
+            {avatarFallback}
+          </AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="center" side="right" className="w-60">
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => signOut()} className="h-10">
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Log Out</span>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+```
+
