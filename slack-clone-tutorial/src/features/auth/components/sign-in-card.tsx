@@ -1,4 +1,4 @@
-//注册卡片组件
+//登录卡片组件
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";

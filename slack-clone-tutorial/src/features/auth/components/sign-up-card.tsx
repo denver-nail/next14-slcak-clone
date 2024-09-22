@@ -1,4 +1,4 @@
-//登录卡片组件
+//注册卡片组件
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { FcGoogle } from "react-icons/fc";
