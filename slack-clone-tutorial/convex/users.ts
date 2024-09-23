@@ -5,10 +5,12 @@ import { getAuthUserId } from "@convex-dev/auth/server";
 export const current = query({
   args: {},
   handler: async (ctx) => {
+    //使用convexAuth提供的方法获取当前登录用户id
     const userId = await getAuthUserId(ctx);
     if (userId === null) {
       return null;
     }
+    //根据用户id在数据库中查询用户信息
     return await ctx.db.get(userId);
   },
 });

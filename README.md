@@ -8,6 +8,7 @@
 4. [Convex | The fullstack TypeScript development platform](https://www.convex.dev/)
 5. [Convex Auth - Convex Auth](https://labs.convex.dev/auth)
 6. [Lucide React | Lucide](https://lucide.dev/guide/packages/lucide-react)
+7. [jotai - npm (npmjs.com)](https://www.npmjs.com/package/jotai)
 
 搭建环境：
 
@@ -670,4 +671,32 @@ export const UserButton = () => {
 };
 
 ```
+
+## 创建新的表
+
+参考文档：[Schemas | Convex Developer Hub](https://docs.convex.dev/database/schemas)
+
+convex\schema.ts
+
+```
+import { authTables } from "@convex-dev/auth/server";
+import { defineSchema, defineTable } from "convex/server";
+import { v } from "convex/values";
+
+const schema = defineSchema({
+  //这个是convexAuth框架自动生成的几个表
+  ...authTables,
+  //自己定义工作区相关数据的表
+  workspaces: defineTable({
+    name: v.string(),
+    userId: v.id("users"),
+    joinCode: v.string(),
+  }),
+});
+
+export default schema;
+
+```
+
+
 
