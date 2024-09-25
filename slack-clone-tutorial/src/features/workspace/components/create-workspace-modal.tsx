@@ -14,7 +14,7 @@ import { toast } from "sonner";
 export const CreateWorkspaceModal = () => {
   const router = useRouter();
   const [name, setName] = useState("");
-  //使用全局状态标识当前对话框是否展现
+  //使用全局状态标识当前创建工作区组件是否展现
   const [open, setOpen] = useCreateWorkspaceModel();
   //自己封装的创建一个workspace的hook，返回一个函数
   const { mutate, isPending } = useCreateWorkspace();

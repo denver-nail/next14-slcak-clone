@@ -676,9 +676,9 @@ export const UserButton = () => {
 
 参考文档：[Schemas | Convex Developer Hub](https://docs.convex.dev/database/schemas)
 
-convex\schema.ts
+**convex\schema.ts**
 
-```
+```ts
 import { authTables } from "@convex-dev/auth/server";
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
@@ -698,5 +698,6 @@ export default schema;
 
 ```
 
+## 构建工作区workspaces
 
-
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\构建workspace工作区流程.png)
