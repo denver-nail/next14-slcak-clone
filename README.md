@@ -701,3 +701,7 @@ export default schema;
 ## 构建工作区workspaces
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\构建workspace工作区流程.png)
+
+**Toolbar部分**
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-26_15-18-08.png)

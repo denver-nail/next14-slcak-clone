@@ -32,3 +32,15 @@ export const create = mutation({
     return workspaceId;
   },
 });
+//根据id查询一个workspace
+export const getById = query({
+  args: { id: v.id("workspaces") },
+  handler: async (ctx, args) => {
+    //验证用户权限
+    const userId = await getAuthUserId(ctx); //获取当前用户id
+    if (!userId) {
+      throw new Error("Unauthorized");
+    }
+    return await ctx.db.get(args.id);
+  },
+});

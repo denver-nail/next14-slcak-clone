@@ -14,6 +14,7 @@ export default function Home() {
   const { data, isLoading } = useGetWorkspaces();
   //useMemo()缓存当前函数的执行结果
   const workspaceId = useMemo(() => data?.[0]?._id, [data]);
+  //当查询到有工作区就重定向到最新的工作区路由
   useEffect(() => {
     if (isLoading) return;
     if (workspaceId) {
