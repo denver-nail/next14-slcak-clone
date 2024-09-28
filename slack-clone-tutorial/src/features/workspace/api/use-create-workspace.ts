@@ -30,7 +30,7 @@ export const useCreateWorkspace = () => {
   const isSettled = useMemo(() => status === "settled", [status]);
 
   //创建一个文档在workspace表的方法
-  const mutation = useMutation(api.workspces.create);
+  const mutation = useMutation(api.workspaces.create);
   //使用useCallback()将函数缓存起来
   const mutate = useCallback(
     async (values: RequestType, options?: Options) => {
@@ -51,7 +51,7 @@ export const useCreateWorkspace = () => {
           throw error;
         }
       } finally {
-        setStatus("settled")
+        setStatus("settled");
         options?.onSettled?.();
       }
     },
