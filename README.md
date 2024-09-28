@@ -705,3 +705,7 @@ export default schema;
 **Toolbar部分**
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-26_15-18-08.png)
+
+**sideBar部分**
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-28_15-24-06.png)

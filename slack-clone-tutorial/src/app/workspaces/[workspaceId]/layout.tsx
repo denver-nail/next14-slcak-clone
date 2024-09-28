@@ -1,6 +1,8 @@
 "use client";
 import * as React from "react";
 import { Toolbar } from "./toolbar";
+import { Sidebar } from "./sidebar";
+
 const WorkspaceLayout = ({
   children,
 }: Readonly<{
@@ -10,7 +12,10 @@ const WorkspaceLayout = ({
     <div className="h-full">
       {/* 工具栏组件 */}
       <Toolbar />
-      {children}
+      <div className=" flex h-[calc(100vh-40px)]">
+        <Sidebar />
+        {children}
+      </div>
     </div>
   );
 };

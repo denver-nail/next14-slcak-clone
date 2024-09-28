@@ -11,6 +11,13 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        //自定义主题色
+        theme: {
+          1: "#283c63",
+          2: "#928a97",
+          3: "#fbe8d3",
+          4: "#f85f73",
+        },
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

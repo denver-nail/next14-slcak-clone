@@ -8,7 +8,7 @@ export const Toolbar = () => {
   //根据id获取当前的workspace
   const { data } = useGetWorkspaceById({ id: workspaceId });
   return (
-    <nav className="bg-[#3e4149] flex items-center justify-between h-10 p-1.5">
+    <nav className="bg-theme-1 flex items-center justify-between h-10 p-1.5">
       <div className="flex-1" />
       <div className="min-w-[280px] max-[642px] grow-[2] shrink">
         <Button
