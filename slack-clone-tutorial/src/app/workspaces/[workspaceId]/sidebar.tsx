@@ -3,7 +3,7 @@ import { WorkspaceSwitcher } from "./workspace-switcher";
 import { SidebarButton } from "./sidebar-button";
 import { Bell, HomeIcon, MessagesSquare, MoreHorizontal } from "lucide-react";
 import { usePathname } from "next/navigation";
-
+//整个应用的侧边工具栏
 export const Sidebar = () => {
   // `usePathname` 是一个客户端组件钩子，可让你读取当前 URL 的路径名
   const pathname = usePathname();
