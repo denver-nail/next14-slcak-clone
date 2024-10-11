@@ -9,6 +9,7 @@
 5. [Convex Auth - Convex Auth](https://labs.convex.dev/auth)
 6. [Lucide React | Lucide](https://lucide.dev/guide/packages/lucide-react)
 7. [jotai - npm (npmjs.com)](https://www.npmjs.com/package/jotai)
+8. [react-use - npm (npmjs.com)](https://www.npmjs.com/package/react-use)
 
 搭建环境：
 
@@ -717,3 +718,7 @@ export default schema;
 实现了preference部分
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-11_10-42-19.png)
+
+实现了workspace的功能区域搭建
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-11_21-20-25.png)

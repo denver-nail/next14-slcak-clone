@@ -61,6 +61,7 @@ export const PreferencesModal = ({
   };
   //删除按钮
   const handleRemove = async () => {
+    //等待操作确认
     const ok = await confirm();
     if (!ok) return;
     removeWorkspace(
@@ -78,6 +79,7 @@ export const PreferencesModal = ({
   };
   return (
     <>
+      {/* 确认操作对话框 */}
       <ConfirmDialog />
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="p-0 bg-gray-50 overflow-hidden">

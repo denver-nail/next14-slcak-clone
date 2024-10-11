@@ -54,7 +54,11 @@ export const create = mutation({
     });
     //向member表插入一条文档
     await ctx.db.insert("members", { userId, workspaceId, role: "admin" });
-
+    //向channel表插入一条文档
+    await ctx.db.insert("channels", {
+      name: "general",
+      workspaceId: workspaceId,
+    });
     //返回一个id
     return workspaceId;
   },
