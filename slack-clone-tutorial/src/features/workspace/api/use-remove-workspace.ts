@@ -2,9 +2,9 @@ import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
-//携带给创建一个文档到workspaces表的参数
-type RequestType = { name: string }; //这里对应创建workspace对话框采集的数据类型
-//这里对应在convex\workspces.ts中create返回的数据类型
+//携带给根据id删除一个workspace和对应的member中的数据的参数
+type RequestType = { id: Id<"workspaces"> };
+//这里对应在convex\workspces.ts中remove返回的数据类型
 type ResponseType = Id<"workspaces"> | null; //返回的是id
 // type ResponseType = Doc<"workspaces">; //返回的是文档
 
@@ -15,8 +15,8 @@ type Options = {
   onSettled?: () => void;
   throwError?: boolean;
 };
-//创建一个文档在workspace表
-export const useCreateWorkspace = () => {
+//更新一个文档在workspace表
+export const useRemoveWorkspace = () => {
   //返回的数据，错误，请求状态等
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -29,8 +29,8 @@ export const useCreateWorkspace = () => {
   const isError = useMemo(() => status === "error", [status]);
   const isSettled = useMemo(() => status === "settled", [status]);
 
-  //创建一个文档在workspace表的方法
-  const mutation = useMutation(api.workspaces.create);
+  //删除一个文档在workspace表和相应member数据的方法
+  const mutation = useMutation(api.workspaces.remove);
   //使用useCallback()将函数缓存起来
   const mutate = useCallback(
     async (values: RequestType, options?: Options) => {
@@ -39,14 +39,14 @@ export const useCreateWorkspace = () => {
         setData(null);
         setError(null);
         setStatus("pending");
-        //创建一个文档在workspace表
+        //删除一个文档在workspace表和删除对应的member数据
         const response = await mutation(values);
-        //传递了创建方法执行成功后，需要执行的方法就执行
+        //传递了方法执行成功后，需要执行的方法就执行
         options?.onSuccess?.(response);
         return response;
       } catch (error) {
         setStatus("error");
-        //传递了创建方法执行失败后，需要执行的方法就执行
+        //传递了方法执行失败后，需要执行的方法就执行
         options?.onError?.(error as Error);
         if (options?.throwError) {
           throw error;

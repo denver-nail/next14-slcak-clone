@@ -2,9 +2,9 @@ import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
 import { Id } from "../../../../convex/_generated/dataModel";
-//携带给创建一个文档到workspaces表的参数
-type RequestType = { name: string }; //这里对应创建workspace对话框采集的数据类型
-//这里对应在convex\workspces.ts中create返回的数据类型
+//携带给更新一个文档到workspaces表的参数
+type RequestType = { id: Id<"workspaces">; name: string };
+//这里对应在convex\workspces.ts中update返回的数据类型
 type ResponseType = Id<"workspaces"> | null; //返回的是id
 // type ResponseType = Doc<"workspaces">; //返回的是文档
 
@@ -15,8 +15,8 @@ type Options = {
   onSettled?: () => void;
   throwError?: boolean;
 };
-//创建一个文档在workspace表
-export const useCreateWorkspace = () => {
+//更新一个文档在workspace表
+export const useUpdateWorkspace = () => {
   //返回的数据，错误，请求状态等
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -29,8 +29,8 @@ export const useCreateWorkspace = () => {
   const isError = useMemo(() => status === "error", [status]);
   const isSettled = useMemo(() => status === "settled", [status]);
 
-  //创建一个文档在workspace表的方法
-  const mutation = useMutation(api.workspaces.create);
+  //更新一个文档在workspace表的方法
+  const mutation = useMutation(api.workspaces.update);
   //使用useCallback()将函数缓存起来
   const mutate = useCallback(
     async (values: RequestType, options?: Options) => {
@@ -39,7 +39,7 @@ export const useCreateWorkspace = () => {
         setData(null);
         setError(null);
         setStatus("pending");
-        //创建一个文档在workspace表
+        //更新一个文档在workspace表
         const response = await mutation(values);
         //传递了创建方法执行成功后，需要执行的方法就执行
         options?.onSuccess?.(response);

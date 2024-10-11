@@ -713,3 +713,7 @@ export default schema;
 **工作区的sidebar部分**
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-10_11-09-42.png)
+
+实现了preference部分
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-11_10-42-19.png)
