@@ -3,6 +3,7 @@ import { useGetWorkspaceById } from "@/features/workspace/api/use-get-workspaceB
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMember } from "@/features/member/api/use-get-member";
+import { useCreateChannelModel } from "@/features/channels/store/use-create-channel-modal";
 import {
   AlertTriangle,
   HashIcon,
@@ -35,6 +36,8 @@ const WorkspaceSiderbar = () => {
   const { data: members, isLoading: _membersIsLoading } = useGetMember({
     workspaceId,
   });
+  //使用jotai托管的全局状态来控制“新建channel对话框”是否展现
+  const [_open, setOpen] = useCreateChannelModel();
   //数据正在加载显示内容
   if (workspaceIsLoading || memberIsLoading) {
     return (
@@ -64,7 +67,12 @@ const WorkspaceSiderbar = () => {
         <SidebarItem label="Drafts&Sent" icon={SendHorizonal} id="draft" />
       </div>
       {/* 频道分隔区 */}
-      <WorkspaceSection label="Channels" hint="New Channel" onNew={() => {}}>
+      <WorkspaceSection
+        label="Channels"
+        hint="New Channel"
+        // 管理员才能创建新的频道
+        onNew={member.role === "admin" ? () => setOpen(true) : undefined}
+      >
         {channels?.map((item) => (
           <SidebarItem
             key={item._id}

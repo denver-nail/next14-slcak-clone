@@ -29,7 +29,9 @@ const WorkspaceLayout = ({
             <WorkspaceSiderbar />
           </ResizablePanel>
           <ResizableHandle withHandle />
-          <ResizablePanel minSize={29}>{children}</ResizablePanel>
+          <ResizablePanel defaultSize={80} minSize={29}>
+            {children}
+          </ResizablePanel>
         </ResizablePanelGroup>
       </div>
     </div>

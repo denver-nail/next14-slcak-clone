@@ -18,7 +18,8 @@ export const WorkspaceSwitcher = () => {
   //使用全局状态标识当前创建工作区组件是否展现
   const [_open, setOpen] = useCreateWorkspaceModel();
   //获取所有workspace
-  const { data: workspaces, isLoading: workspacesLoading } = useGetWorkspaces();
+  const { data: workspaces, isLoading: _workspacesLoading } =
+    useGetWorkspaces();
   //从路由param参数获取id
   const workspaceId = useWorkspaceId();
   //根据id获取当前的workspace
