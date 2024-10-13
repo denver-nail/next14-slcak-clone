@@ -151,3 +151,31 @@ export const remove = mutation({
     return args.id;
   },
 });
+//设置新的joinCode
+export const newJoinCode = mutation({
+  args: {
+    workspaceId: v.id("workspaces"),
+  },
+  handler: async (ctx, args) => {
+    //验证用户权限
+    const userId = await getAuthUserId(ctx); //获取当前用户id
+    if (!userId) {
+      throw new Error("Unauthorized");
+    }
+    //检查当前用户id和workspace的id是否对应
+    const member = await ctx.db
+      .query("members")
+      .withIndex("by_workspcae_id_user_id", (q) =>
+        q.eq("workspaceId", args.workspaceId).eq("userId", userId)
+      )
+      .unique();
+    if (!member || member.role !== "admin") {
+      throw new Error("Unauthorized");
+    }
+    //生成新的joinCode
+    const joinCode = generateCode();
+
+    await ctx.db.patch(args.workspaceId, { joinCode });
+    return args.workspaceId;
+  },
+});

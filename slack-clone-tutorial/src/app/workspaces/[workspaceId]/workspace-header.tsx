@@ -12,6 +12,7 @@ import {
 import { Doc } from "../../../../convex/_generated/dataModel";
 import { Hint } from "@/components/hint";
 import { PreferencesModal } from "./preferences-modal";
+import { InviteModal } from "./invite-modal";
 
 //声明父组件传递数据类型
 interface WorkspaceHeaderProps {
@@ -21,8 +22,11 @@ interface WorkspaceHeaderProps {
 const WorkspaceHeader = ({ workspace, isAdmin }: WorkspaceHeaderProps) => {
   //控制preferences的对话框显示状态
   const [perferncesOpen, setPreferencesOpen] = useState(false);
+  //控制Invite people的对话框显示状态
+  const [inviteOpen, setInviteOpen] = useState(false);
   return (
     <>
+      <InviteModal open={inviteOpen} setOpen={setInviteOpen} name={workspace.name} joinCode={workspace.joinCode}/>
       <PreferencesModal
         open={perferncesOpen}
         setOpen={setPreferencesOpen}
@@ -60,7 +64,7 @@ const WorkspaceHeader = ({ workspace, isAdmin }: WorkspaceHeaderProps) => {
               <>
                 <DropdownMenuItem
                   className="cursor-pointer py-2"
-                  onClick={() => {}}
+                  onClick={() => setInviteOpen(true)}
                 >
                   Invite people to {workspace.name}
                 </DropdownMenuItem>

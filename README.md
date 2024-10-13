@@ -722,3 +722,7 @@ export default schema;
 实现了workspace的功能区域搭建
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-11_21-20-25.png)
+
+实现邀请码的生成和更新
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-13_15-35-50.png)
