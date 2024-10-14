@@ -63,6 +63,28 @@ export const create = mutation({
     return workspaceId;
   },
 });
+//根据id获取当前工作区的name等不敏感信息
+export const getInfoById = query({
+  args: { id: v.id("workspaces") },
+  handler: async (ctx, args) => {
+    //验证用户权限
+    const userId = await getAuthUserId(ctx); //获取当前用户id
+    if (!userId) {
+      return null;
+    }
+    const member = await ctx.db
+      .query("members")
+      .withIndex("by_workspcae_id_user_id", (q) =>
+        q.eq("workspaceId", args.id).eq("userId", userId)
+      )
+      .unique();
+    const workspace = await ctx.db.get(args.id);
+    return {
+      name: workspace?.name,
+      isMember: !!member,
+    };
+  },
+});
 //根据id查询一个workspace
 export const getById = query({
   args: { id: v.id("workspaces") },
@@ -177,5 +199,41 @@ export const newJoinCode = mutation({
 
     await ctx.db.patch(args.workspaceId, { joinCode });
     return args.workspaceId;
+  },
+});
+//使用邀请码加入工作区
+export const join = mutation({
+  args: { workspaceId: v.id("workspaces"), joinCode: v.string() },
+  handler: async (ctx, args) => {
+    //验证用户权限
+    const userId = await getAuthUserId(ctx); //获取当前用户id
+    if (!userId) {
+      throw new Error("Unauthorized");
+    }
+    const workspace = await ctx.db.get(args.workspaceId);
+    if (!workspace) {
+      throw new Error("Workspace not found");
+    }
+    if (workspace.joinCode !== args.joinCode.toLowerCase()) {
+      throw new Error("Invalid join code");
+    }
+    //检查当前用户id和workspace的id是否对应
+    const existMember = await ctx.db
+      .query("members")
+      .withIndex("by_workspcae_id_user_id", (q) =>
+        q.eq("workspaceId", args.workspaceId).eq("userId", userId)
+      )
+      .unique();
+    //本来就已经存在在了该workspace
+    if (existMember) {
+      throw new Error("Already an  member of this workspace");
+    }
+    //向members表中插入该用户和工作区
+    await ctx.db.insert("members", {
+      userId,
+      workspaceId: workspace._id,
+      role: "member",
+    });
+    return workspace._id;
   },
 });

@@ -10,6 +10,7 @@
 6. [Lucide React | Lucide](https://lucide.dev/guide/packages/lucide-react)
 7. [jotai - npm (npmjs.com)](https://www.npmjs.com/package/jotai)
 8. [react-use - npm (npmjs.com)](https://www.npmjs.com/package/react-use)
+9. [react-verification-input - npm (npmjs.com)](https://www.npmjs.com/package/react-verification-input)
 
 搭建环境：
 
@@ -726,3 +727,12 @@ export default schema;
 实现邀请码的生成和更新
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-13_15-35-50.png)
+
+实现通过邀请码加入工作区的功能
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-14_15-05-46.png)
+
+项目中暂存的问题       
+
+1. 在用户第一次登录时存在没有加载任何workspace
+2. 登录时加载了其他组件userbutton
