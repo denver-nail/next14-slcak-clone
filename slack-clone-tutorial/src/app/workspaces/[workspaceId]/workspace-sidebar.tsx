@@ -4,6 +4,7 @@ import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { useGetMember } from "@/features/member/api/use-get-member";
 import { useCreateChannelModel } from "@/features/channels/store/use-create-channel-modal";
+import { useChannelId } from "@/hooks/use-channel-id";
 import {
   AlertTriangle,
   HashIcon,
@@ -17,6 +18,8 @@ import { WorkspaceSection } from "./Workspace-section";
 import { UserItem } from "./user-item";
 //工作区的左边的侧边区域
 const WorkspaceSiderbar = () => {
+  //获取channel的id
+  const channelId = useChannelId();
   //获取worksapce的id
   const workspaceId = useWorkspaceId();
   //使用api获取当前member数据
@@ -79,6 +82,7 @@ const WorkspaceSiderbar = () => {
             icon={HashIcon}
             label={item.name}
             id={item._id}
+            variant={channelId === item._id ? "active" : "default"}
           />
         ))}
       </WorkspaceSection>
