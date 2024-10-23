@@ -732,6 +732,10 @@ export default schema;
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-14_15-05-46.png)
 
+实现channelIdPage的头部部分
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-23_19-23-32.png)
+
 项目中暂存的问题       
 
 1. 在用户第一次登录时存在没有加载任何workspace

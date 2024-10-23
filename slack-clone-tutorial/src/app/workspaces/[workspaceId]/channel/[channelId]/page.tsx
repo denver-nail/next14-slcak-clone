@@ -1,4 +1,37 @@
+"use client";
+
+import { useGetChannelById } from "@/features/channels/api/use-get-channels-by-id";
+import { useChannelId } from "@/hooks/use-channel-id";
+import { Loader, TriangleAlert } from "lucide-react";
+import { Header } from "./header";
 const ChannelIdPage = () => {
-  return <div>channel id page</div>;
+  //获取当前的channalID
+  const channelId = useChannelId();
+  //根据id查询channel数据
+  const { data: channel, isLoading: channelLoading } = useGetChannelById({
+    channelId,
+  });
+  //数据正在加载显示内容
+  if (channelLoading) {
+    return (
+      <div className="h-full flex-1 flex items-center justify-center">
+        <Loader className="animate-spin size-5 to-muted-foreground" />
+      </div>
+    );
+  }
+  //数据加载失败显示内容
+  if (!channel) {
+    return (
+      <div className="h-full flex flex-1 flex-col gap-y-2 items-center justify-center">
+        <TriangleAlert className="size-6 to-muted-foreground text-theme-4" />
+        <span className="text-sm text-muted-foreground">Channel not found</span>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-col h-full">
+      <Header title={channel.name}></Header>
+    </div>
+  );
 };
 export default ChannelIdPage;
