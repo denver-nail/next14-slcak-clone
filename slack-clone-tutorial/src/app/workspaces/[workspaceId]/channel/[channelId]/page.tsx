@@ -4,6 +4,7 @@ import { useGetChannelById } from "@/features/channels/api/use-get-channels-by-i
 import { useChannelId } from "@/hooks/use-channel-id";
 import { Loader, TriangleAlert } from "lucide-react";
 import { Header } from "./header";
+import { ChatInput } from "./chat-input";
 const ChannelIdPage = () => {
   //获取当前的channalID
   const channelId = useChannelId();
@@ -30,7 +31,12 @@ const ChannelIdPage = () => {
   }
   return (
     <div className="flex flex-col h-full">
-      <Header title={channel.name}></Header>
+      {/* 头部组件 */}
+      <Header title={channel.name} />
+      {/* 消息区 */}
+      <div className="flex-1"></div>
+      {/* 消息输入框 */}
+      <ChatInput placeholder={`Message #${channel.name}`} />
     </div>
   );
 };

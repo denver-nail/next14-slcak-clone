@@ -11,6 +11,9 @@
 7. [jotai - npm (npmjs.com)](https://www.npmjs.com/package/jotai)
 8. [react-use - npm (npmjs.com)](https://www.npmjs.com/package/react-use)
 9. [react-verification-input - npm (npmjs.com)](https://www.npmjs.com/package/react-verification-input)
+10. [quill - npm (npmjs.com)](https://www.npmjs.com/package/quill)
+
+    
 
 搭建环境：
 
@@ -700,6 +703,190 @@ export default schema;
 
 ```
 
+## Quill富文本编辑器使用
+
+`Quill` 是一个轻量、可扩展的开源富文本编辑器。它具有丰富的文本编辑功能，并支持通过模块和 API 扩展实现更多自定义功能。下面介绍 `Quill` 的基础用法、配置、以及常用的 API。
+
+### 1. **安装和引入 Quill**
+
+安装 `Quill`：
+
+```bash
+npm install quill
+```
+
+引入 `Quill` 及其默认样式：
+
+```javascript
+import Quill from "quill";
+import "quill/dist/quill.snow.css"; // 或 "quill/dist/quill.bubble.css" 选择其他主题
+```
+
+### 2. **初始化 Quill 编辑器**
+
+创建一个 `<div>` 容器，并在其中初始化 `Quill`：
+
+```javascript
+const container = document.getElementById("editor"); // 获取编辑器容器
+const quill = new Quill(container, {
+  theme: "snow", // 指定编辑器主题，可选 "snow"、"bubble"、"core"
+  placeholder: "Write something here...", // 占位符
+  modules: {
+    toolbar: [
+      ["bold", "italic", "underline", "strike"], // 加粗、斜体、下划线、删除线
+      ["link", "image", "video"], // 插入链接、图片、视频
+      [{ list: "ordered" }, { list: "bullet" }], // 有序列表、无序列表
+      [{ header: [1, 2, 3, false] }], // 标题等级
+    ],
+  },
+});
+```
+
+### 3. **配置模块（Modules）**
+
+`Quill` 支持多个模块，用于扩展编辑器的功能。常用模块包括 `toolbar`、`keyboard`、`clipboard` 等。
+
+- **Toolbar**：工具栏模块，用于配置编辑器上方的工具按钮，可以自定义布局。
+  
+  ```javascript
+  modules: {
+    toolbar: [
+      ["bold", "italic", "underline"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["link", "image"],
+    ],
+  }
+  ```
+
+- **Keyboard**：键盘绑定模块，可以自定义快捷键行为，例如 `Shift+Enter` 插入换行、`Enter` 提交表单等。
+
+  ```javascript
+  modules: {
+    keyboard: {
+      bindings: {
+        enter: {
+          key: 13, // Enter键的ASCII码
+          handler: function() {
+            console.log("Enter was pressed!");
+          }
+        },
+      }
+    }
+  }
+  ```
+
+### 4. **基本 API 操作**
+
+- **获取和设置内容**：
+
+  - `getText()`：获取编辑器的纯文本内容。
+  - `getContents()`：获取内容的 `Delta` 格式（Quill 内部表示文本及其格式的格式）。
+  - `setText(text)`：设置纯文本内容。
+  - `setContents(delta)`：用 `Delta` 对象设置内容。
+  
+  ```javascript
+  const text = quill.getText(); // 获取纯文本
+  const delta = quill.getContents(); // 获取 Delta 格式内容
+  
+  quill.setText("Hello, world!"); // 设置纯文本内容
+  quill.setContents([{ insert: "Hello, world!" }]); // 用 Delta 格式设置内容
+  ```
+
+- **插入文本或格式**：
+
+  - `insertText(index, text, formats)`：在指定位置插入带格式的文本。
+  - `formatText(index, length, format, value)`：格式化文本，例如加粗、斜体等。
+  
+  ```javascript
+  quill.insertText(0, "Hello", { bold: true }); // 在开头插入加粗文本
+  quill.formatText(0, 5, "italic", true); // 将前5个字符设为斜体
+  ```
+
+- **插入其他内容**：
+
+  - `insertEmbed(index, type, value)`：插入非文本内容，比如图片或视频。
+  
+  ```javascript
+  quill.insertEmbed(10, "image", "https://example.com/image.jpg");
+  ```
+
+### 5. **事件监听**
+
+`Quill` 提供了多个事件，用于监听编辑器内容的变化：
+
+- **`text-change`**：监听文本变化事件，通常用于获取输入的最新内容。
+  
+  ```javascript
+  quill.on("text-change", (delta, oldDelta, source) => {
+    console.log("Text changed:", quill.getText());
+  });
+  ```
+
+- **`selection-change`**：监听选区变化事件，例如用户选择了文本时触发。
+  
+  ```javascript
+  quill.on("selection-change", (range, oldRange, source) => {
+    if (range) {
+      console.log("User selected text");
+    } else {
+      console.log("User deselected text");
+    }
+  });
+  ```
+
+### 6. **Delta 格式**
+
+`Delta` 是 `Quill` 的内部数据格式，表示内容和格式，能够方便地跟踪文本及其变更。通常在获取内容、设置内容、或进行富文本操作时使用。
+
+示例：
+
+```javascript
+const delta = quill.getContents();
+console.log(delta); // Delta格式的数据
+
+// 使用 Delta 设置内容
+quill.setContents([
+  { insert: "Hello ", attributes: { bold: true } },
+  { insert: "world!" },
+]);
+```
+
+### 7. **自定义主题和样式**
+
+`Quill` 提供了 `snow` 和 `bubble` 主题，你也可以通过自定义 CSS 实现样式定制。比如可以定制工具栏或编辑区域的样式：
+
+```css
+.ql-toolbar {
+  background-color: #f4f4f4;
+}
+.ql-editor {
+  min-height: 200px;
+  font-family: Arial, sans-serif;
+}
+```
+
+### 8. **禁用编辑器**
+
+可以在 `Quill` 初始化时或使用 `disable` 方法来禁用编辑器：
+
+```javascript
+quill.disable(); // 禁用编辑器
+quill.enable(); // 启用编辑器
+```
+
+### 9. **销毁编辑器**
+
+`Quill` 没有自带的销毁方法，但你可以移除 DOM 元素以手动销毁实例，确保不会造成内存泄漏：
+
+```javascript
+quill.off("text-change"); // 移除事件监听
+document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
+```
+
+### 总结
+
+`Quill` 是一个功能强大且灵活的富文本编辑器，提供了全面的 API、事件监听和模块配置选项，可以轻松实现富文本编辑的各种需求，并支持高级的内容管理与定制化。
+
 ## 构建工作区workspaces
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\构建workspace工作区流程.png)
@@ -736,7 +923,12 @@ export default schema;
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-23_19-23-32.png)
 
+实现channelIdPage的编辑区的静态搭建
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-25_14-53-54.png)
+
 项目中暂存的问题       
 
 1. 在用户第一次登录时存在没有加载任何workspace
 2. 登录时加载了其他组件userbutton
+3. 
