@@ -9,11 +9,13 @@ import {
 } from "react";
 import { Button } from "./ui/button";
 import { IoTextSharp } from "react-icons/io5";
-import { ImageIcon, Smile, SendHorizontal } from "lucide-react";
+import { ImageIcon, Smile, SendHorizontal, XIcon } from "lucide-react";
 import { Hint } from "./hint";
 import { EmojiPopover } from "./emoji-popover";
 import { Delta, Op } from "quill/core";
 import { cn } from "@/lib/utils";
+import { type Skin } from "@emoji-mart/data";
+import Image from "next/image";
 //提交函数参数的声明
 type EditorValue = {
   image: File | null;
@@ -39,6 +41,8 @@ const Editor = ({
   innerRef,
 }: EditorProps) => {
   const [text, setText] = useState("");
+  //保存图片选择器上传的图片
+  const [image, setImage] = useState<File | null>(null);
   const [isToolbarVisibile, setIsToolbarVisable] = useState(true);
   //containerRef 被用来获取富文本编辑器 Quill 将会挂载到的 DOM 容器
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,6 +57,8 @@ const Editor = ({
   const defaultValueRef = useRef(defaultValue);
   //disabledRef 保存编辑器的禁用状态，避免因为状态更新引发不必要的重新渲染。
   const disabledRef = useRef(disabled);
+  //imageElementRef被用来获取图片选择器
+  const imageElementRef = useRef<HTMLInputElement>(null);
   //在 useLayoutEffect 中，每次 onSubmit、placeholder、defaultValue 或 disabled 变化时，更新这些 ref 的值，而不是重新执行整个 useEffect：
   useLayoutEffect(() => {
     submitRef.current = onSubmit;
@@ -140,15 +146,47 @@ const Editor = ({
   };
   const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0; //判断编辑区是否为空
   //表情选择好后的回调函数
-  const onEmojiSelect = (emoji: any) => {
+  const onEmojiSelect = (emoji: Skin) => {
     const quill = quillRef.current;
     //将emoji插入编辑区
     quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
   };
   return (
     <div className="flex flex-col">
+      {/* 图片选择器 */}
+      <input
+        type="file"
+        accept="image/*"
+        ref={imageElementRef}
+        onChange={(event) => setImage(event.target.files![0])}
+        className="hidden"
+      />
       <div className="flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white">
         <div ref={containerRef} className="h-full ql-custom " />
+        {/* 上传图片预览区 */}
+        {!!image && (
+          <div className="relative size-[62px] flex items-center justify-center group/image">
+            {/* 图片删除按钮 */}
+            <Hint label="Remove image">
+              <button
+                onClick={() => {
+                  setImage(null);
+                  imageElementRef.current!.value = "";
+                }}
+                className="hidden group-hover/image:flex rounded-full bg-black/70 hover:bg-black absolute -top-2.5 -right-2.5 text-white size-6 z-[4] border-2 border-white items-center justify-center"
+              >
+                <XIcon className="size-3.5" />
+              </button>
+            </Hint>
+            <Image
+              // URL.createObjectURL() 静态方法会创建一个 DOMString，其中包含一个表示参数中给出的对象的URL
+              src={URL.createObjectURL(image)}
+              alt="Uploaded"
+              fill
+              className="rounded-xl overflow-hidden border object-cover"
+            />
+          </div>
+        )}
         <div className="flex px-2 pb-2 z-[5]">
           {/* 开关编辑区工具栏 */}
           <Hint
@@ -176,7 +214,7 @@ const Editor = ({
                 disabled={disabled}
                 size="iconSm"
                 variant="ghost"
-                onClick={() => {}}
+                onClick={() => imageElementRef.current?.click()}
               >
                 <ImageIcon className="size-4" />
               </Button>

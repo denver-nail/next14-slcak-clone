@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Picker from "@emoji-mart/react";
-import data from "@emoji-mart/data";
+import data, { type Skin } from "@emoji-mart/data";
 import {
   Popover,
   PopoverContent,
@@ -16,7 +16,7 @@ import {
 interface EmojiPopoverProps {
   children: React.ReactNode;
   hint?: string;
-  onEmojiSelect: (emoji: any) => void;
+  onEmojiSelect: (emoji: Skin) => void;
 }
 export const EmojiPopover = ({
   children,
@@ -27,7 +27,7 @@ export const EmojiPopover = ({
   const [popoverOpen, setPopoverOpen] = useState(false);
   //提示信息气泡框的显示控制
   const [tooltipOpen, setTooltipOpen] = useState(false);
-  const onSelect = (emoji: any) => {
+  const onSelect = (emoji: Skin) => {
     //组件会将选中的emoji对象作为第一个参数传递
     onEmojiSelect(emoji); //调用父组件传递的emoji选中回调函数
     setPopoverOpen(false);
