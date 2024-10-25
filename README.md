@@ -12,6 +12,7 @@
 8. [react-use - npm (npmjs.com)](https://www.npmjs.com/package/react-use)
 9. [react-verification-input - npm (npmjs.com)](https://www.npmjs.com/package/react-verification-input)
 10. [quill - npm (npmjs.com)](https://www.npmjs.com/package/quill)
+11. [emoji-mart - npm (npmjs.com)](https://www.npmjs.com/package/emoji-mart)
 
     
 
@@ -926,6 +927,10 @@ document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
 实现channelIdPage的编辑区的静态搭建
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-25_14-53-54.png)
+
+实现向编辑区插入emoji功能
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-25_16-28-46.png)
 
 项目中暂存的问题       
 

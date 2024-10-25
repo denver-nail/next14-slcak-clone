@@ -11,6 +11,7 @@ import { Button } from "./ui/button";
 import { IoTextSharp } from "react-icons/io5";
 import { ImageIcon, Smile, SendHorizontal } from "lucide-react";
 import { Hint } from "./hint";
+import { EmojiPopover } from "./emoji-popover";
 import { Delta, Op } from "quill/core";
 import { cn } from "@/lib/utils";
 //提交函数参数的声明
@@ -137,13 +138,19 @@ const Editor = ({
       toolbarElement.classList.toggle("hidden");
     }
   };
-  const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
-
+  const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0; //判断编辑区是否为空
+  //表情选择好后的回调函数
+  const onEmojiSelect = (emoji: any) => {
+    const quill = quillRef.current;
+    //将emoji插入编辑区
+    quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
+  };
   return (
     <div className="flex flex-col">
       <div className="flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white">
         <div ref={containerRef} className="h-full ql-custom " />
         <div className="flex px-2 pb-2 z-[5]">
+          {/* 开关编辑区工具栏 */}
           <Hint
             label={isToolbarVisibile ? "Hide Formatting" : "Show formatting"}
           >
@@ -156,16 +163,13 @@ const Editor = ({
               <IoTextSharp className="size-4" />
             </Button>
           </Hint>
-          <Hint label="Emoji">
-            <Button
-              disabled={disabled}
-              size="iconSm"
-              variant="ghost"
-              onClick={() => {}}
-            >
+          {/* 表情 */}
+          <EmojiPopover onEmojiSelect={onEmojiSelect}>
+            <Button disabled={disabled} size="iconSm" variant="ghost">
               <Smile className="size-4" />
             </Button>
-          </Hint>
+          </EmojiPopover>
+          {/* 上传图片按钮 */}
           {variant === "create" && (
             <Hint label="Image">
               <Button
@@ -178,6 +182,7 @@ const Editor = ({
               </Button>
             </Hint>
           )}
+          {/* 取消和保存按钮 */}
           {variant === "update" && (
             <div className="ml-auto flex items-center gap-x-2">
               <Button
@@ -198,6 +203,7 @@ const Editor = ({
               </Button>
             </div>
           )}
+          {/* 发送按钮 */}
           {variant === "create" && (
             <Button
               onClick={() => {}}
@@ -216,11 +222,19 @@ const Editor = ({
           )}
         </div>
       </div>
-      <div className="p-2 text-[10px] text-muted-foreground flex justify-end ">
-        <p>
-          <strong>Shift +Return</strong>to add a new line
-        </p>
-      </div>
+      {/* 提示信息 */}
+      {variant === "create" && (
+        <div
+          className={cn(
+            "p-2 text-[10px] text-muted-foreground flex justify-end opacity-0 transition ",
+            !isEmpty && "opacity-100"
+          )}
+        >
+          <p>
+            <strong>Shift +Return</strong>to add a new line
+          </p>
+        </div>
+      )}
     </div>
   );
 };
