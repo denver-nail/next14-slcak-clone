@@ -27,7 +27,7 @@ interface EditorProps {
   variant?: "create" | "update"; //用于区分创建和更新模式，默认为 "create"。
   onCancel?: () => void; //在更新模式下点击取消时的回调函数。
   placeholder?: string; //默认的提示文本。
-  disabled?: false; //是否禁用编辑器。
+  disabled?: boolean; //是否禁用编辑器。
   defaultValue?: Delta | Op[]; //编辑器的初始内容。
   innerRef?: MutableRefObject<Quill | null>; //允许父组件访问 Quill 实例的引用。
 }
@@ -91,8 +91,14 @@ const Editor = ({
             enter: {
               key: "Enter",
               handler: () => {
-                //TODO:submit form
-                return;
+                const text = quill.getText();
+                const addedImage = imageElementRef.current?.files?.[0] || null;
+                const isEmpty =
+                  !addedImage &&
+                  text.replace(/<(.|\n)*?>/g, "").trim().length === 0; //判断文本是否
+                if (isEmpty) return;
+                const body = JSON.stringify(quill.getContents());
+                submitRef.current?.({ body, image: addedImage });
               },
             },
             shift_enter: {
@@ -144,7 +150,7 @@ const Editor = ({
       toolbarElement.classList.toggle("hidden");
     }
   };
-  const isEmpty = text.replace(/<(.|\n)*?>/g, "").trim().length === 0; //判断编辑区是否为空
+  const isEmpty = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0; //判断编辑区是否为空
   //表情选择好后的回调函数
   const onEmojiSelect = (emoji: Skin) => {
     const quill = quillRef.current;
@@ -161,7 +167,12 @@ const Editor = ({
         onChange={(event) => setImage(event.target.files![0])}
         className="hidden"
       />
-      <div className="flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white">
+      <div
+        className={cn(
+          "flex flex-col border border-slate-200 rounded-md overflow-hidden focus-within:border-slate-300 focus-within:shadow-sm transition bg-white",
+          disabled && "opacity-50"
+        )}
+      >
         <div ref={containerRef} className="h-full ql-custom " />
         {/* 上传图片预览区 */}
         {!!image && (
@@ -226,14 +237,19 @@ const Editor = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => {}}
+                onClick={onCancel}
                 disabled={disabled}
               >
                 Cancel
               </Button>
               <Button
                 size="sm"
-                onClick={() => {}}
+                onClick={() => {
+                  onSubmit({
+                    body: JSON.stringify(quillRef.current?.getContents()),
+                    image,
+                  });
+                }}
                 disabled={disabled || isEmpty}
                 className="ml-auto bg-theme-4 hover:bg-theme-4/80 text-white"
               >
@@ -244,7 +260,12 @@ const Editor = ({
           {/* 发送按钮 */}
           {variant === "create" && (
             <Button
-              onClick={() => {}}
+              onClick={() => {
+                onSubmit({
+                  body: JSON.stringify(quillRef.current?.getContents()),
+                  image,
+                });
+              }}
               disabled={disabled || isEmpty}
               size="sm"
               className={cn(
