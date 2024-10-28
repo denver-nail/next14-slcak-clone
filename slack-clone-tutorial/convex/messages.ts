@@ -24,7 +24,7 @@ export const create = mutation({
     workspaceId: v.id("workspaces"),
     channelId: v.optional(v.id("channels")),
     parentMessageId: v.optional(v.id("messages")),
-    //TODO: 添加conversationId
+    conversationId: v.optional(v.id("conversations")),
   },
   handler: async (ctx, args) => {
     //验证用户权限
@@ -35,7 +35,17 @@ export const create = mutation({
     if (!member) {
       throw new Error("Unauthorized!");
     }
-    //TODO:处理conversationId
+    //处理conversationId
+    let _conversationId = args.conversationId;
+    //只有当我们在一对一的对话中才有可能回复信息
+    if (!args.conversationId && !args.channelId && args.parentMessageId) {
+      const parentMessage = await ctx.db.get(args.parentMessageId);
+      if (!parentMessage) {
+        throw new Error("Parent message not found ");
+      }
+      _conversationId = parentMessage.conversationId;
+    }
+
     //插入一条数据到messages表
     const messageId = await ctx.db.insert("messages", {
       memberId: member._id,
@@ -45,6 +55,7 @@ export const create = mutation({
       workspaceId: args.workspaceId,
       parentMessageId: args.parentMessageId,
       updatedAt: Date.now(),
+      conversationId: _conversationId,
     });
     return messageId;
   },
