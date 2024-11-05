@@ -5,6 +5,7 @@ import { useChannelId } from "@/hooks/use-channel-id";
 import { Loader, TriangleAlert } from "lucide-react";
 import { Header } from "./header";
 import { ChatInput } from "./chat-input";
+import { useGetMessages } from "@/features/message/api/use-get-messages";
 const ChannelIdPage = () => {
   //获取当前的channalID
   const channelId = useChannelId();
@@ -12,6 +13,9 @@ const ChannelIdPage = () => {
   const { data: channel, isLoading: channelLoading } = useGetChannelById({
     channelId,
   });
+  //根据channelId查询message数据
+  const { results } = useGetMessages({ channelId });
+  console.log({ results });
   //数据正在加载显示内容
   if (channelLoading) {
     return (
@@ -34,7 +38,7 @@ const ChannelIdPage = () => {
       {/* 头部组件 */}
       <Header title={channel.name} />
       {/* 消息区 */}
-      <div className="flex-1"></div>
+      <div className="flex-1">{JSON.stringify(results)}</div>
       {/* 消息输入框 */}
       <ChatInput placeholder={`Message #${channel.name}`} />
     </div>

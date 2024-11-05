@@ -9,7 +9,7 @@ type RequestType = {
   image?: Id<"_storage">;
   channelId?: Id<"channels">;
   parentMessaheId?: Id<"messages">;
-  conversationId: Id<"conversations">;
+  conversationId?: Id<"conversations">;
 };
 //这里对应在convex\messages.ts中create返回的数据类型
 type ResponseType = Id<"messages"> | null; //返回的是id
