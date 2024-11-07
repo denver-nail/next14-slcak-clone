@@ -13,6 +13,7 @@
 9. [react-verification-input - npm (npmjs.com)](https://www.npmjs.com/package/react-verification-input)
 10. [quill - npm (npmjs.com)](https://www.npmjs.com/package/quill)
 11. [emoji-mart - npm (npmjs.com)](https://www.npmjs.com/package/emoji-mart)
+12. [date-fns - npm (npmjs.com)](https://www.npmjs.com/package/date-fns)
 
     
 
@@ -931,6 +932,10 @@ document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
 实现向编辑区插入emoji功能
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-25_16-28-46.png)
+
+实现上传图片和预览+消息列表的**基本**展示
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-07_18-51-05.png)
 
 项目中暂存的问题       
 

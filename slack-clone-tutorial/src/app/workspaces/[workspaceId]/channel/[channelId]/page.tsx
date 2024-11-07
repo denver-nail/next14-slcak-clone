@@ -6,6 +6,7 @@ import { Loader, TriangleAlert } from "lucide-react";
 import { Header } from "./header";
 import { ChatInput } from "./chat-input";
 import { useGetMessages } from "@/features/message/api/use-get-messages";
+import { MessageList } from "@/components/message-list";
 const ChannelIdPage = () => {
   //获取当前的channalID
   const channelId = useChannelId();
@@ -14,10 +15,10 @@ const ChannelIdPage = () => {
     channelId,
   });
   //根据channelId查询message数据
-  const { results } = useGetMessages({ channelId });
+  const { results, status, loadMore } = useGetMessages({ channelId });
   console.log({ results });
   //数据正在加载显示内容
-  if (channelLoading) {
+  if (channelLoading || status === "LoadingFirstPage") {
     return (
       <div className="h-full flex-1 flex items-center justify-center">
         <Loader className="animate-spin size-5 to-muted-foreground" />
@@ -38,7 +39,16 @@ const ChannelIdPage = () => {
       {/* 头部组件 */}
       <Header title={channel.name} />
       {/* 消息区 */}
-      <div className="flex-1">{JSON.stringify(results)}</div>
+        {/* 消息列表组件 */}
+      <MessageList
+        channelName={channel.name}
+        channelCreationTime={channel._creationTime}
+        data={results}
+        loadMore={loadMore}
+        isLoadingMore={status === "LoadingMore"}
+        canLoadMore={status == "CanLoadMore"}
+      ></MessageList>
+    
       {/* 消息输入框 */}
       <ChatInput placeholder={`Message #${channel.name}`} />
     </div>
