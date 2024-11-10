@@ -36,7 +36,12 @@ export const Toolbar = ({
         {/* 线程回复按钮 */}
         {!hideThreadButton && (
           <Hint label="Reply in thread">
-            <Button variant="ghost" size="iconSm" disabled={isPending}>
+            <Button
+              variant="ghost"
+              size="iconSm"
+              disabled={isPending}
+              onClick={handleThread}
+            >
               <MessageSquareTextIcon className="size-4" />
             </Button>
           </Hint>
@@ -44,7 +49,12 @@ export const Toolbar = ({
         {/* 编辑消息按钮 */}
         {isAuthor && (
           <Hint label="Edit message">
-            <Button variant="ghost" size="iconSm" disabled={isPending}>
+            <Button
+              variant="ghost"
+              size="iconSm"
+              disabled={isPending}
+              onClick={handleEdit}
+            >
               <Pencil className="size-4" />
             </Button>
           </Hint>
@@ -52,7 +62,12 @@ export const Toolbar = ({
         {/* 删除消息按钮 */}
         {isAuthor && (
           <Hint label="Delete message">
-            <Button variant="ghost" size="iconSm" disabled={isPending}>
+            <Button
+              variant="ghost"
+              size="iconSm"
+              disabled={isPending}
+              onClick={handleDelete}
+            >
               <Trash className="size-4" />
             </Button>
           </Hint>
