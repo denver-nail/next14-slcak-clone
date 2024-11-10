@@ -247,3 +247,27 @@ export const update = mutation({
     return args.id;
   },
 });
+//删除消息
+export const remove = mutation({
+  args: {
+    id: v.id("messages"),
+  },
+  handler: async (ctx, args) => {
+    // 验证用户权限
+    const userId = await getAuthUserId(ctx);
+    if (!userId) throw new Error("Unauthorized!");
+    //根据id查询对应的消息文档
+    const message = await ctx.db.get(args.id);
+    if (!message) {
+      throw new Error("Message not found");
+    }
+    //查询member信息是否匹配
+    const member = await getMember(ctx, message.workspaceId, userId);
+    if (!member || member._id !== message.memberId) {
+      throw new Error("Unauthorized");
+    }
+    //更新消息
+    await ctx.db.delete(args.id);
+    return args.id;
+  },
+});

@@ -945,7 +945,9 @@ document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-10_16-27-18.png)
 
+实现消息删除功能
 
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-10_19-05-10.png)
 
 项目中暂存的问题       
 
