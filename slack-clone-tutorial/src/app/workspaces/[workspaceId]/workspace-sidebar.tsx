@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import WorkspaceHeader from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
-import { WorkspaceSection } from "./Workspace-section";
+import { WorkspaceSection } from "./workspace-section";
 import { UserItem } from "./user-item";
 //工作区的左边的侧边区域
 const WorkspaceSiderbar = () => {
