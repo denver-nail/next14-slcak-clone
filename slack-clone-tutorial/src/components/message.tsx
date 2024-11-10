@@ -4,6 +4,7 @@ import { format, isToday, isYesterday } from "date-fns";
 import { Hint } from "./hint";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Thumbnail } from "./thumbnail";
+import { Toolbar } from "./toolbar";
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false }); //与富文本相关组件不使用ssr
 // 单条消息组件所需参数
 interface MessageProps {
@@ -79,7 +80,7 @@ export const Message = ({
   //展示头像没有图片显示的文字
   const avatarFallback = authorName.charAt(0).toUpperCase();
   return (
-    <div className="flex gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative">
+    <div className="flex flex-col gap-2 p-1.5 px-5 hover:bg-gray-100/60 group relative">
       <div className="flex items-start gap-2">
         <button>
           {/* 发送消息的用户的头像 */}
@@ -90,32 +91,45 @@ export const Message = ({
             </AvatarFallback>
           </Avatar>
         </button>
-      </div>
-      <div className="flex flex-col w-full overflow-hidden">
-        <div className="text-sm">
-          {/*  用户名*/}
-          <button
-            onClick={() => {}}
-            className="font-bold text-primary hover:underline"
-          >
-            {authorName}
-          </button>
-          <span>&nbsp;&nbsp;</span>
-          {/* 发送消息的时间 */}
-          <Hint label={formatFullTime(new Date(createdAt))}>
-            <button className="text-xs text-muted-foreground hover:underline">
-              {format(new Date(createdAt), "h:mm a")}
+        <div className="flex flex-col w-full overflow-hidden">
+          <div className="text-sm">
+            {/*  用户名*/}
+            <button
+              onClick={() => {}}
+              className="font-bold text-primary hover:underline"
+            >
+              {authorName}
             </button>
-          </Hint>
+            <span>&nbsp;&nbsp;</span>
+            {/* 发送消息的时间 */}
+            <Hint label={formatFullTime(new Date(createdAt))}>
+              <button className="text-xs text-muted-foreground hover:underline">
+                {format(new Date(createdAt), "h:mm a")}
+              </button>
+            </Hint>
+          </div>
+          {/* 将富文本消息渲染出来的组件 */}
+          <Renderer value={body} />
+          {/* 展示消息中的图片的组件 */}
+          <Thumbnail url={image} />
+          {updatedAt ? (
+            <span className="text-xs text-muted-foreground">(edited)</span>
+          ) : null}
         </div>
-        {/* 将富文本消息渲染出来的组件 */}
-        <Renderer value={body} />
-        {/* 展示消息中的图片的组件 */}
-        <Thumbnail url={image} />
-        {updatedAt ? (
-          <span className="text-xs text-muted-foreground">(edited)</span>
-        ) : null}
       </div>
+
+      {/* 非编辑状态显示的工具栏 */}
+      {!isEditing && (
+        <Toolbar
+          isAuthor={isAuthor}
+          isPending={false}
+          handleEdit={() => setEditingId(id)}
+          handleThread={() => {}}
+          handleDelete={() => {}}
+          handleReaction={() => {}}
+          hideThreadButton={hideThreadButton}
+        />
+      )}
     </div>
   );
 };
