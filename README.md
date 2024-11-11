@@ -949,6 +949,12 @@ document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-10_19-05-10.png)
 
+实现反应切换功能
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-11_14-41-30.png)
+
+
+
 项目中暂存的问题       
 
 1. 在用户第一次登录时存在没有加载任何workspace

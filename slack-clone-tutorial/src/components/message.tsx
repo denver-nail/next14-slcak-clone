@@ -10,6 +10,8 @@ import { Thumbnail } from "./thumbnail";
 import { Toolbar } from "./toolbar";
 import { toast } from "sonner";
 import { cn } from "../lib/utils";
+import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
+import { Reactions } from "./reactions";
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false }); //与富文本相关组件不使用ssr
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 // 单条消息组件所需参数
@@ -72,6 +74,9 @@ export const Message = ({
   //获取删除消息的API
   const { mutate: removeMessage, isPending: isRemoveMessage } =
     useRemoveMessage();
+  //切换消息的状态
+  const { mutate: toggleReaction, isPending: isTogglingReaction } =
+    useToggleReaction();
   const isPending = isUpdateingMessage;
   // 处理更新消息的回调函数
   const handleUpdate = ({ body }: { body: string }) => {
@@ -102,6 +107,17 @@ export const Message = ({
         },
         onError: () => {
           toast.error("Failed to delete message");
+        },
+      }
+    );
+  };
+  //处理状态的回调函数
+  const handleReaction = (value: string) => {
+    toggleReaction(
+      { messageId: id, value },
+      {
+        onError: () => {
+          toast.error("Failed to toggle reaction");
         },
       }
     );
@@ -147,6 +163,7 @@ export const Message = ({
                     (edited)
                   </span>
                 ) : null}
+                <Reactions data={reactions} onChange={handleReaction} />
               </div>
             )}
           </div>
@@ -158,7 +175,7 @@ export const Message = ({
               handleEdit={() => setEditingId(id)}
               handleThread={() => {}}
               handleDelete={handleRemove}
-              handleReaction={() => {}}
+              handleReaction={handleReaction}
               hideThreadButton={hideThreadButton}
             />
           )}
@@ -227,6 +244,7 @@ export const Message = ({
               {updatedAt ? (
                 <span className="text-xs text-muted-foreground">(edited)</span>
               ) : null}
+              <Reactions data={reactions} onChange={handleReaction} />
             </div>
           )}
         </div>
@@ -239,7 +257,7 @@ export const Message = ({
             handleEdit={() => setEditingId(id)}
             handleThread={() => {}}
             handleDelete={handleRemove}
-            handleReaction={() => {}}
+            handleReaction={handleReaction}
             hideThreadButton={hideThreadButton}
           />
         )}
