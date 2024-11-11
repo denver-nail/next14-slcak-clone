@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Id } from "../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/member/api/use-current-member";
+import { Loader } from "lucide-react";
 //设置消息间隔（当间隔小于时显示消息的方式不同）
 const TIME_THRESHOLD = 5;
 //消息列表组件所需的参数
@@ -105,6 +106,38 @@ export const MessageList = ({
           })}
         </div>
       ))}
+      {/*这里的写法值得注意：用于实现很多消息的滚动加载功能 */}
+      <div
+        className="h-1"
+        ref={(el) => {
+          //通过 ref 属性，将 div 元素的 DOM 引用赋值给 el 变量，并执行一段逻辑。
+          if (el) {
+            /*    IntersectionObserver 是一个浏览器 API，用于检测元素是否进入视口。它被配置为在元素完全进入视口时（threshold: 1.0）触发回调函数。 */
+            const observer = new IntersectionObserver(
+              ([entry]) => {
+                /* 当目标元素（div）进入视口时，entry.isIntersecting 会返回 true。此时，如果 canLoadMore 为 true，则调用 loadMore()，表示可以加载更多内容。 */
+                if (entry.isIntersecting && canLoadMore) {
+                  loadMore();
+                }
+              },
+              { threshold: 1.0 }
+            );
+            //将 IntersectionObserver 绑定到指定的 el 元素（这里是 div 元素），从而开始观察该元素是否进入视口。
+            observer.observe(el);
+            // 解除 IntersectionObserver 对 el 元素的监听，以避免不必要的回调触发
+            return () => observer.disconnect();
+          }
+        }}
+      />
+
+      {isLoadingMore && (
+        <div className="text-center my-2 relative">
+          <hr className="absolute top-1/2 left-0 right-0 border-t border-gray-300" />
+          <span className="relative inline-block bg-white px-4 py-1 rounded-full text-xs border border-gray-300 shadow-sm ">
+            <Loader className="size-4 animate-spin" />
+          </span>
+        </div>
+      )}
       {/* 展现channel信息的头部组件 */}
       {variant === "channel" && channelName && channelCreationTime && (
         <ChannelHero

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Hint } from "./hint";
 import { EmojiPopover } from "./emoji-popover";
 import { MdOutlineAddReaction } from "react-icons/md";
+//对消息作出反应组件所需的参数
 interface ReactionsProps {
   data: Array<
     Omit<Doc<"reactions">, "memberId"> & {
@@ -14,6 +15,7 @@ interface ReactionsProps {
   >;
   onChange: (value: string) => void;
 }
+// 对消息作出反应组件
 export const Reactions = ({ data, onChange }: ReactionsProps) => {
   const workspaceId = useWorkspaceId();
   const { data: currentMember } = useCurrentMember({ workspaceId });
@@ -24,6 +26,7 @@ export const Reactions = ({ data, onChange }: ReactionsProps) => {
   return (
     <div className="flex items-center gap-1 mt-1 mb-1">
       {data.map((reaction) => (
+        // 展示已有反应
         <Hint
           key={reaction._id}
           label={`${reaction.count} ${reaction.count === 1 ? "preson" : "people"} reacted with ${reaction.value}`}
@@ -48,6 +51,7 @@ export const Reactions = ({ data, onChange }: ReactionsProps) => {
           </button>
         </Hint>
       ))}
+      {/* 添加新的反应 */}
       <EmojiPopover
         hint="Add reaction"
         onEmojiSelect={(emoji) => onChange(emoji.native)}
