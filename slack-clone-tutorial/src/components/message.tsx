@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { cn } from "../lib/utils";
 import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
 import { Reactions } from "./reactions";
+import { usePanel } from "@/hooks/use-panel";
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false }); //与富文本相关组件不使用ssr
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 // 单条消息组件所需参数
@@ -63,6 +64,8 @@ export const Message = ({
   threadTimestamp,
   isCompact,
 }: MessageProps) => {
+  //控制thread对话栏
+  const { parentMessageId, onOpenMessage, onClose } = usePanel();
   //确认框
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete message",
@@ -103,7 +106,10 @@ export const Message = ({
       {
         onSuccess: () => {
           toast.success("Message deleted");
-          //TODO: close thread if opend
+          //删除信息同时关闭该信息相关的1vs1聊天区
+          if (parentMessageId === id) {
+            onClose();
+          }
         },
         onError: () => {
           toast.error("Failed to delete message");
@@ -173,7 +179,7 @@ export const Message = ({
               isAuthor={isAuthor}
               isPending={isPending}
               handleEdit={() => setEditingId(id)}
-              handleThread={() => {}}
+              handleThread={() => onOpenMessage(id)}
               handleDelete={handleRemove}
               handleReaction={handleReaction}
               hideThreadButton={hideThreadButton}
@@ -255,7 +261,7 @@ export const Message = ({
             isAuthor={isAuthor}
             isPending={isPending}
             handleEdit={() => setEditingId(id)}
-            handleThread={() => {}}
+            handleThread={() => onOpenMessage(id)}
             handleDelete={handleRemove}
             handleReaction={handleReaction}
             hideThreadButton={hideThreadButton}

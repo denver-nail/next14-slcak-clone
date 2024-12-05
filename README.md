@@ -14,6 +14,7 @@
 10. [quill - npm (npmjs.com)](https://www.npmjs.com/package/quill)
 11. [emoji-mart - npm (npmjs.com)](https://www.npmjs.com/package/emoji-mart)
 12. [date-fns - npm (npmjs.com)](https://www.npmjs.com/package/date-fns)
+13. [nuqs - npm (npmjs.com)](https://www.npmjs.com/package/nuqs)
 
     
 
