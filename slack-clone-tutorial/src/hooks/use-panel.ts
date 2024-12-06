@@ -1,4 +1,4 @@
-import { useParentMessageId } from "@/features/message/api/store/use-parent-message-id";
+import { useParentMessageId } from "@/features/message/store/use-parent-message-id";
 
 export const usePanel = () => {
   //获取url中的param参数

@@ -271,3 +271,71 @@ export const remove = mutation({
     return args.id;
   },
 });
+//根据id查询对应的消息
+export const getById = query({
+  args: {
+    id: v.id("messages"),
+  },
+  handler: async (ctx, args) => {
+    // 验证用户权限
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      return null;
+    }
+    //查询message
+    const message = await ctx.db.get(args.id);
+    if (!message) {
+      return null;
+    }
+    // 验证当前用户id和workspaces是否对应
+    const currentMember = await getMember(ctx, message.workspaceId, userId);
+    if (!currentMember) {
+      return null;
+    }
+    //保证该message对应的member和user都存在
+    const member = await populateMember(ctx, message.memberId);
+    if (!member) {
+      return null;
+    }
+    const user = await populateUser(ctx, member.userId);
+    if (!user) {
+      return null;
+    }
+    const reactions = await populateReactions(ctx, message._id);
+    // 计算去重后的反应计数
+    const reactionCounts = reactions.reduce(
+      (acc, reaction) => {
+        //使用 find 方法在 acc 中查找是否已经存在与当前 reaction 相同类型的反应（通过 r.value === reaction.value 判断）。
+        const existing = acc.find((r) => r.value === reaction.value);
+        //如果 existing 不为 undefined，说明 acc 中已经存在此类型的反应。则将 existing.count 加 1，以更新此类型反应的数量。
+        if (existing) {
+          existing.count += 1;
+          existing.memberIds.push(reaction.memberId);
+        } else {
+          //如果 existing 为 undefined，说明 acc 中尚不存在此类型的反应。将当前的 reaction 对象扩展为新对象，并增加 count: 1 和 memberIds: [reaction.memberId]。
+          acc.push({
+            ...reaction,
+            count: 1,
+            memberIds: [reaction.memberId],
+          });
+        }
+        return acc;
+      },
+      //初始化累加器 acc
+      [] as (Doc<"reactions"> & { count: number; memberIds: Id<"members">[] })[]
+    );
+    // 删除 memberId 属性，返回去重的 reactions 数据
+    const rectionsWithoutMemberIdProperty = reactionCounts.map(
+      ({ memberId, ...rest }) => rest
+    );
+    return {
+      ...message,
+      image: message.image
+        ? await ctx.storage.getUrl(message.image)
+        : undefined,
+      user,
+      member,
+      reactions: rectionsWithoutMemberIdProperty,
+    };
+  },
+});

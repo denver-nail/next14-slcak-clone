@@ -9,7 +9,9 @@ import {
 } from "@/components/ui/resizable";
 import WorkspaceSiderbar from "./workspace-sidebar";
 import { usePanel } from "@/hooks/use-panel";
-
+import { Loader } from "lucide-react";
+import { Id } from "../../../../convex/_generated/dataModel";
+import { Thread } from "@/features/message/components/Thread";
 const WorkspaceLayout = ({
   children,
 }: Readonly<{
@@ -42,7 +44,17 @@ const WorkspaceLayout = ({
             <>
               <ResizableHandle withHandle />
               <ResizablePanel minSize={20} defaultSize={29}>
-                load s
+                {parentMessageId ? (
+                  <Thread
+                    messageId={parentMessageId as Id<"messages">}
+                    onClose={onClose}
+                  />
+                ) : (
+                  // 加载中显示的内容
+                  <div className="flex h-full items-center justify-center">
+                    <Loader className="size-5 animate-spin to-muted-foreground" />
+                  </div>
+                )}
               </ResizablePanel>
             </>
           )}
