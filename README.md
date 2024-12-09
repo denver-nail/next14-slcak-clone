@@ -954,7 +954,9 @@ document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-11_14-41-30.png)
 
+**实现1对1聊天的消息内容展示**
 
+![image-20241209194246391](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\image-20241209194246391.png)
 
 项目中暂存的问题       
 
