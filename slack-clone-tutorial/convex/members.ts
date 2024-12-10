@@ -2,6 +2,7 @@ import { v } from "convex/values";
 import { query, QueryCtx } from "./_generated/server";
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { Id } from "./_generated/dataModel";
+
 //根据用户id和workspaceid查询member
 export const current = query({
   args: { workspaceId: v.id("workspaces") },
@@ -26,6 +27,37 @@ export const current = query({
 const populateUser = (ctx: QueryCtx, id: Id<"users">) => {
   return ctx.db.get(id);
 };
+//根据用户id查表
+export const getById = query({
+  args: { id: v.id("members") },
+  handler: async (ctx, args) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      return null;
+    }
+    const member = await ctx.db.get(args.id);
+    if (!member) {
+      return null;
+    }
+    const currentMember = await ctx.db
+      .query("members")
+      .withIndex("by_workspcae_id_user_id", (q) =>
+        q.eq("workspaceId", member.workspaceId).eq("userId", userId)
+      )
+      .unique();
+    if (!currentMember) {
+      return null;
+    }
+    const user = await populateUser(ctx, member.userId);
+    if (!user) {
+      return null;
+    }
+    return {
+      ...member,
+      user,
+    };
+  },
+});
 //根据workspaceId查询相关的userId，然后再user表中查询用户的详细信息
 export const get = query({
   args: { workspaceId: v.id("workspaces") },

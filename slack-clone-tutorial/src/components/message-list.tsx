@@ -7,6 +7,7 @@ import { Id } from "../../convex/_generated/dataModel";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/member/api/use-current-member";
 import { Loader } from "lucide-react";
+import { ConversationHero } from "./conversation-hero";
 //设置消息间隔（当间隔小于时显示消息的方式不同）
 const TIME_THRESHOLD = 5;
 //消息列表组件所需的参数
@@ -24,7 +25,7 @@ interface MessageListProps {
 //根据日期转换成标签
 const formatDateLabel = (dateStr: string) => {
   const date = new Date(dateStr);
-  if (isToday(date)) return "Tody";
+  if (isToday(date)) return "Today";
   if (isYesterday(date)) return "Yesterday";
   return format(date, "EEEE,MMMM d");
 };
@@ -144,6 +145,13 @@ export const MessageList = ({
           name={channelName}
           createTime={channelCreationTime}
         ></ChannelHero>
+      )}
+      {/* 展现conversation信息的头部组件 */}
+      {variant === "conversation" && (
+        <ConversationHero
+          name={memberName}
+          image={memberImage}
+        ></ConversationHero>
       )}
     </div>
   );

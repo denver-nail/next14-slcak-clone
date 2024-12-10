@@ -20,7 +20,6 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { useRouter } from "next/navigation";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useCurrentMember } from "@/features/member/api/use-current-member";
-
 // 当前组件需要的接收的参数声明
 interface HeaderProps {
   title: string;

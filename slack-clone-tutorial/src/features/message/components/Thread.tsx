@@ -39,7 +39,7 @@ type CreateMessageValues = {
 //根据日期转换成标签
 const formatDateLabel = (dateStr: string) => {
   const date = new Date(dateStr);
-  if (isToday(date)) return "Tody";
+  if (isToday(date)) return "Today";
   if (isYesterday(date)) return "Yesterday";
   return format(date, "EEEE,MMMM d");
 };
@@ -94,6 +94,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
       const value: CreateMessageValues = {
         channelId,
         workspaceId,
+
         parentMessageId: messageId,
         body,
         image: undefined,
@@ -104,7 +105,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
         if (!url) {
           throw new Error("Url not found");
         }
-        console.log({ url });
+
         //根据生成的url上传图片
         const result = await fetch(url, {
           method: "POST",
@@ -116,7 +117,6 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
         if (!result.ok) {
           throw new Error("Failed to upload image");
         }
-        console.log({ result });
         //得到图片上传后的storageId
         const { storageId } = await result.json();
         value.image = storageId;

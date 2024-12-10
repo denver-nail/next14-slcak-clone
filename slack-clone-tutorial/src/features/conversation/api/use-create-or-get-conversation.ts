@@ -1,19 +1,14 @@
 import { useMutation } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
 import { useCallback, useMemo, useState } from "react";
-import { Id } from "../../../../convex/_generated/dataModel";
+import {  Id } from "../../../../convex/_generated/dataModel";
 //携带给创建一个文档到message表的参数
 type RequestType = {
-  body: string;
   workspaceId: Id<"workspaces">;
-  image?: Id<"_storage">;
-  channelId?: Id<"channels">;
-  parentMessageId?: Id<"messages">;
-  conversationId?: Id<"conversations">;
+  memberId: Id<"members">;
 };
-//这里对应在convex\messages.ts中create返回的数据类型
-type ResponseType = Id<"messages"> | null; //返回的是id
-// type ResponseType = Doc<"workspaces">; //返回的是文档
+//这里对应在convex\conversation.ts中createOrGet返回的数据类型
+type ResponseType = Id<"conversations"> | null; //返回的是id
 
 //声明一个类型来标识数据增删改操作后的后续操作
 type Options = {
@@ -22,8 +17,8 @@ type Options = {
   onSettled?: () => void;
   throwError?: boolean;
 };
-//创建一个文档在workspace表
-export const useCreateMessage = () => {
+//创建一个文档或返回一个文档在conversations表
+export const useCreateOrGetConversation = () => {
   //返回的数据，错误，请求状态等
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState<Error | null>(null);
@@ -37,7 +32,7 @@ export const useCreateMessage = () => {
   const isSettled = useMemo(() => status === "settled", [status]);
 
   //创建一个文档在workspace表的方法
-  const mutation = useMutation(api.messages.create);
+  const mutation = useMutation(api.conversations.createOrGet);
   //使用useCallback()将函数缓存起来
   const mutate = useCallback(
     async (values: RequestType, options?: Options) => {

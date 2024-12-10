@@ -2,7 +2,7 @@ import { useCurrentMember } from "@/features/member/api/use-current-member";
 import { useGetWorkspaceById } from "@/features/workspace/api/use-get-workspaceById";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { useGetChannels } from "@/features/channels/api/use-get-channels";
-import { useGetMember } from "@/features/member/api/use-get-member";
+import { useGetMembers } from "@/features/member/api/use-get-members";
 import { useCreateChannelModel } from "@/features/channels/store/use-create-channel-modal";
 import { useChannelId } from "@/hooks/use-channel-id";
 import {
@@ -16,8 +16,10 @@ import WorkspaceHeader from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
 import { WorkspaceSection } from "./workspace-section";
 import { UserItem } from "./user-item";
+import { useMemberId } from "@/hooks/use-member-id";
 //工作区的左边的侧边区域
 const WorkspaceSiderbar = () => {
+  const memberId = useMemberId();
   //获取channel的id
   const channelId = useChannelId();
   //获取worksapce的id
@@ -36,7 +38,7 @@ const WorkspaceSiderbar = () => {
     workspaceId,
   });
   //使用API获取当前workspace对应的所有成员的信息
-  const { data: members, isLoading: _membersIsLoading } = useGetMember({
+  const { data: members, isLoading: _membersIsLoading } = useGetMembers({
     workspaceId,
   });
   //使用jotai托管的全局状态来控制“新建channel对话框”是否展现
@@ -98,6 +100,7 @@ const WorkspaceSiderbar = () => {
             id={item._id}
             label={item.user.name}
             image={item.user.image}
+            variant={item._id === memberId ? "active" : "default"}
           />
         ))}
       </WorkspaceSection>

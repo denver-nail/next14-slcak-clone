@@ -11,7 +11,7 @@ import WorkspaceSiderbar from "./workspace-sidebar";
 import { usePanel } from "@/hooks/use-panel";
 import { Loader } from "lucide-react";
 import { Id } from "../../../../convex/_generated/dataModel";
-import { Thread } from "@/features/message/components/Thread";
+import { Thread } from "@/features/message/components/thread";
 const WorkspaceLayout = ({
   children,
 }: Readonly<{
