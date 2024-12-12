@@ -13,6 +13,7 @@ import { cn } from "../lib/utils";
 import { useToggleReaction } from "@/features/reactions/api/use-toggle-reaction";
 import { Reactions } from "./reactions";
 import { usePanel } from "@/hooks/use-panel";
+import { ThreadBar } from "./thread-bar";
 const Renderer = dynamic(() => import("@/components/renderer"), { ssr: false }); //与富文本相关组件不使用ssr
 const Editor = dynamic(() => import("@/components/editor"), { ssr: false });
 // 单条消息组件所需参数
@@ -39,6 +40,7 @@ interface MessageProps {
   threadCount?: number;
   threadImage?: string;
   threadTimestamp?: number;
+  threadName?: string;
 }
 //转换时间格式函数
 const formatFullTime = (date: Date) => {
@@ -62,6 +64,7 @@ export const Message = ({
   threadCount,
   threadImage,
   threadTimestamp,
+  threadName,
   isCompact,
 }: MessageProps) => {
   //控制thread对话栏
@@ -169,7 +172,17 @@ export const Message = ({
                     (edited)
                   </span>
                 ) : null}
+                {/* 展示表情的组件 */}
                 <Reactions data={reactions} onChange={handleReaction} />
+                {/*展示Thread消息提醒的组件 */}
+
+                <ThreadBar
+                  count={threadCount}
+                  image={threadImage}
+                  timestamp={threadTimestamp}
+                  onClick={() => onOpenMessage(id)}
+                  name={threadName}
+                />
               </div>
             )}
           </div>
@@ -251,6 +264,14 @@ export const Message = ({
                 <span className="text-xs text-muted-foreground">(edited)</span>
               ) : null}
               <Reactions data={reactions} onChange={handleReaction} />
+              {/*展示Thread消息提醒的组件 */}
+              <ThreadBar
+                count={threadCount}
+                image={threadImage}
+                timestamp={threadTimestamp}
+                onClick={() => onOpenMessage(id)}
+                name={threadName}
+              />
             </div>
           )}
         </div>

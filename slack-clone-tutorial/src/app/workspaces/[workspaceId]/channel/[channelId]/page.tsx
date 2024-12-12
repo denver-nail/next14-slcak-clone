@@ -16,7 +16,7 @@ const ChannelIdPage = () => {
   });
   //根据channelId查询message数据
   const { results, status, loadMore } = useGetMessages({ channelId });
-  console.log({ results });
+  // console.log({ results });
   //数据正在加载显示内容
   if (channelLoading || status === "LoadingFirstPage") {
     return (
@@ -39,7 +39,8 @@ const ChannelIdPage = () => {
       {/* 头部组件 */}
       <Header title={channel.name} />
       {/* 消息区 */}
-        {/* 消息列表组件 */}
+      {/* 消息列表组件 */}
+      {/* {JSON.stringify(results)} */}
       <MessageList
         channelName={channel.name}
         channelCreationTime={channel._creationTime}
@@ -48,7 +49,7 @@ const ChannelIdPage = () => {
         isLoadingMore={status === "LoadingMore"}
         canLoadMore={status == "CanLoadMore"}
       ></MessageList>
-    
+
       {/* 消息输入框 */}
       <ChatInput placeholder={`Message #${channel.name}`} />
     </div>

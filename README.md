@@ -958,9 +958,13 @@ document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
 
 ![image-20241209194246391](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\image-20241209194246391.png)
 
-用户实时对话部分
+**用户实时对话部分**
 
 ![image-20241210212718114](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\image-20241210212718114.png)
+
+**实现显示Thread消息提示**
+
+![image-20241212171943112](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\image-20241212171943112.png)
 
 项目中暂存的问题       
 
