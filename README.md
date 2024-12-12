@@ -966,6 +966,10 @@ document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
 
 ![image-20241212171943112](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\image-20241212171943112.png)
 
+**实现展示用户的信息**
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-12-12_20-58-33.png)
+
 项目中暂存的问题       
 
 1. 在用户第一次登录时存在没有加载任何workspace

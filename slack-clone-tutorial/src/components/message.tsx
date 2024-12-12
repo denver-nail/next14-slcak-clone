@@ -68,7 +68,7 @@ export const Message = ({
   isCompact,
 }: MessageProps) => {
   //控制thread对话栏
-  const { parentMessageId, onOpenMessage, onClose } = usePanel();
+  const { parentMessageId, onOpenMessage, onOpenProfile, onClose } = usePanel();
   //确认框
   const [ConfirmDialog, confirm] = useConfirm(
     "Delete message",
@@ -83,7 +83,7 @@ export const Message = ({
   //切换消息的状态
   const { mutate: toggleReaction, isPending: isTogglingReaction } =
     useToggleReaction();
-  const isPending = isUpdateingMessage;
+  const isPending = isUpdateingMessage || isTogglingReaction;
   // 处理更新消息的回调函数
   const handleUpdate = ({ body }: { body: string }) => {
     updateMessage(
@@ -216,7 +216,7 @@ export const Message = ({
         )}
       >
         <div className="flex items-start gap-2">
-          <button>
+          <button onClick={() => onOpenProfile(memberId)}>
             {/* 发送消息的用户的头像 */}
             <Avatar>
               <AvatarImage src={authorImage} />
@@ -242,7 +242,7 @@ export const Message = ({
               <div className="text-sm">
                 {/*  用户名*/}
                 <button
-                  onClick={() => {}}
+                  onClick={() => onOpenProfile(memberId)}
                   className="font-bold text-primary hover:underline"
                 >
                   {authorName}
