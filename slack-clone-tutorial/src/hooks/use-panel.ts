@@ -18,7 +18,7 @@ export const usePanel = () => {
   //关闭消息对话框就清除当前的messageId和profileMemberId
   const onClose = () => {
     setParentMessageId(null);
-    setParentMessageId(null);
+    setProfileMemberId(null);
   };
   return {
     parentMessageId,

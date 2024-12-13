@@ -970,6 +970,12 @@ document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
 
 ![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-12-12_20-58-33.png)
 
+**搭建好用户信息展示页并实现修改用户权限和删除remove功能，leave功能还有问题**
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-12-13_16-32-46.png)
+
+![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-12-13_16-33-23.png)
+
 项目中暂存的问题       
 
 1. 在用户第一次登录时存在没有加载任何workspace
