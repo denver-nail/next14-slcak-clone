@@ -27,7 +27,7 @@ export const current = query({
 const populateUser = (ctx: QueryCtx, id: Id<"users">) => {
   return ctx.db.get(id);
 };
-//根据用户id查表
+//根据成员id查表
 export const getById = query({
   args: { id: v.id("members") },
   handler: async (ctx, args) => {

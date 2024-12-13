@@ -11,8 +11,6 @@ import {
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
@@ -26,7 +24,7 @@ import { useCurrentMember } from "../api/use-current-member";
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
 import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
-import { useRouter } from "next/navigation";
+
 
 interface ProfileProps {
   memberId: Id<"members">;
@@ -34,7 +32,7 @@ interface ProfileProps {
 }
 //成员信息展示组件
 export const Profile = ({ memberId, onClose }: ProfileProps) => {
-  const router = useRouter();
+  
   const workspaceId = useWorkspaceId();
   //获取当前的成员信息
   const { data: member, isLoading: isLoadingMember } = useGetMemberById({
@@ -44,16 +42,10 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   const { data: currentMember, isLoading: isLoadingCurrentMember } =
     useCurrentMember({ workspaceId });
   //更新成员信息的API
-  const { mutate: updateMember, isPending: isUpdatingMember } =
-    useUpdateMember();
+  const { mutate: updateMember } = useUpdateMember();
   //删除成员信息的API
-  const { mutate: removeMember, isPending: isRemovingMember } =
-    useRemoveMember();
-  //离开确认框
-  const [LeaveDialog, confirmLeave] = useConfirm(
-    "Leave workspace",
-    "Are you sure you want to leave this workspace?"
-  );
+  const { mutate: removeMember } = useRemoveMember();
+
   //删除确认框
   const [RemoveDialog, confirmRemove] = useConfirm(
     "Remove member",
@@ -81,25 +73,7 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
       }
     );
   };
-  //TODO:离开按钮还有问题
-  //离开按钮回调
-  const onLeave = async () => {
-    const ok = await confirmLeave();
-    if (!ok) return;
-    removeMember(
-      { id: memberId },
-      {
-        onSuccess: () => {
-          router.replace("/");
-          toast.success("You left the workspace");
-          onClose();
-        },
-        onError: () => {
-          toast.error("Failed to leave the workspace");
-        },
-      }
-    );
-  };
+
   //修改成员信息按钮回调
   const onUpdate = async (role: "admin" | "member") => {
     const ok = await confirmUpdate();
@@ -155,7 +129,6 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
   const avatarFallback = member.user.name?.charAt(0).toUpperCase() ?? "M";
   return (
     <>
-      <LeaveDialog />
       <UpdateDialog />
       <RemoveDialog />
       <div className="h-full flex flex-col">
@@ -208,14 +181,6 @@ export const Profile = ({ memberId, onClose }: ProfileProps) => {
               {/* 删除成员按钮 */}
               <Button onClick={onRemove} variant="outline" className="w-full">
                 Remove
-              </Button>
-            </div>
-          ) : // 查看的是当前登录的用户且当前登录用户不是管理员角色
-          currentMember?._id === memberId && currentMember?.role !== "admin" ? (
-            <div className="mt-4">
-              {/* 离开按钮 */}
-              <Button onClick={onLeave} variant="outline" className="w-full">
-                Leave
               </Button>
             </div>
           ) : null}
