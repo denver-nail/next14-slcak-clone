@@ -32,7 +32,7 @@ npx create-next-app@latest
 npx shadcn@latest init
 ```
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_10-43-53.png)
+![](.\assert\Snipaste_2024-09-19_10-43-53.png)
 
 ## 使用Convex数据库
 
@@ -47,13 +47,13 @@ npx shadcn@latest init
 
 创建账户和连接本地后
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-18_20-17-16.png)
+![](.\assert\Snipaste_2024-09-18_20-17-16.png)
 
 向数据库中插入数据
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-18_20-26-48.png)
+![](.\assert\Snipaste_2024-09-18_20-26-48.png)
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-18_20-25-32.png)
+![](.\assert\Snipaste_2024-09-18_20-25-32.png)
 
 启动服务命令
 
@@ -72,7 +72,7 @@ npm install @convex-dev/auth @auth/core
 npx @convex-dev/auth
 ```
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_10-05-45.png)
+![](.\assert\Snipaste_2024-09-19_10-05-45.png)
 
 ### 配置服务器端身份认证
 
@@ -90,19 +90,19 @@ npx @convex-dev/auth
 
 在convex的仪表盘中找到HTTP Actions URL
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_15-50-20.png)
+![](.\assert\Snipaste_2024-09-19_15-50-20.png)
 
 在github中配置HTTP Actions URL
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_15-57-17.png) 
+![](.\assert\Snipaste_2024-09-19_15-57-17.png) 
 
 **2.设置环境变量**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_16-01-37.png)
+![](.\assert\Snipaste_2024-09-19_16-01-37.png)
 
 注册好OAuth应用后获取client ID和client secriets并配置到convex中
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_16-24-39.png)
+![](.\assert\Snipaste_2024-09-19_16-24-39.png)
 
 执行两个命令配置
 
@@ -111,23 +111,23 @@ npx convex env set AUTH_GITHUB_ID yourgithubclientid
 npx convex env set AUTH_GITHUB_SECRET yourgithubsecret
 ```
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_16-26-28.png)
+![](.\assert\Snipaste_2024-09-19_16-26-28.png)
 
 **3.Provider 配置**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_17-59-43.png)
+![](.\assert\Snipaste_2024-09-19_17-59-43.png)
 
 **4.绑定登录按钮**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_18-29-57.png)
+![](.\assert\Snipaste_2024-09-19_18-29-57.png)
 
 **绑定登出按钮**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_18-30-52.png)
+![](.\assert\Snipaste_2024-09-19_18-30-52.png)
 
 **Google设置**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_18-42-25.png)
+![](.\assert\Snipaste_2024-09-19_18-42-25.png)
 
 ```
  npx convex env set AUTH_GOOGLE_ID=676726185338-madl2a2cqcntndrr1sip8gid96npcnlv.apps.googleusercontent.com
@@ -140,7 +140,7 @@ npx convex env set AUTH_GITHUB_SECRET yourgithubsecret
 
 **1.配置Provider**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-19_19-49-50.png)
+![](.\assert\Snipaste_2024-09-19_19-49-50.png)
 
 **2.添加注册表单**
 
@@ -580,7 +580,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
 
 ```
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-22_16-20-18.png)
+![](.\assert\Snipaste_2024-09-22_16-20-18.png)
 
 ## 数据操作
 
@@ -892,89 +892,95 @@ document.getElementById("editor").innerHTML = ""; // 清空编辑器容器
 
 ## 构建工作区workspaces
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\构建workspace工作区流程.png)
+![](.\assert\构建workspace工作区流程.png)
 
 **Toolbar部分**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-26_15-18-08.png)
+![](.\assert\Snipaste_2024-09-26_15-18-08.png)
 
 **sideBar部分**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-09-28_15-24-06.png)
+![](.\assert\Snipaste_2024-09-28_15-24-06.png)
 
 **工作区的sidebar部分**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-10_11-09-42.png)
+![](.\assert\Snipaste_2024-10-10_11-09-42.png)
 
 实现了preference部分
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-11_10-42-19.png)
+![](.\assert\Snipaste_2024-10-11_10-42-19.png)
 
 实现了workspace的功能区域搭建
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-11_21-20-25.png)
+![](.\assert\Snipaste_2024-10-11_21-20-25.png)
 
 实现邀请码的生成和更新
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-13_15-35-50.png)
+![](.\assert\Snipaste_2024-10-13_15-35-50.png)
 
 实现通过邀请码加入工作区的功能
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-14_15-05-46.png)
+![](.\assert\Snipaste_2024-10-14_15-05-46.png)
 
 实现channelIdPage的头部部分
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-23_19-23-32.png)
+![](.\assert\Snipaste_2024-10-23_19-23-32.png)
 
 实现channelIdPage的编辑区的静态搭建
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-25_14-53-54.png)
+![](.\assert\Snipaste_2024-10-25_14-53-54.png)
 
 实现向编辑区插入emoji功能
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-10-25_16-28-46.png)
+![](.\assert\Snipaste_2024-10-25_16-28-46.png)
 
 实现上传图片和预览+消息列表的**基本**展示
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-07_18-51-05.png)
+![](.\assert\Snipaste_2024-11-07_18-51-05.png)
 
 添加消息的工具栏组件
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-10_14-33-28.png)
+![](.\assert\Snipaste_2024-11-10_14-33-28.png)
 
 实现消息更新编辑功能
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-10_16-27-18.png)
+![](.\assert\Snipaste_2024-11-10_16-27-18.png)
 
 实现消息删除功能
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-10_19-05-10.png)
+![](.\assert\Snipaste_2024-11-10_19-05-10.png)
 
 实现反应切换功能
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-11-11_14-41-30.png)
+![](.\assert\Snipaste_2024-11-11_14-41-30.png)
 
 **实现1对1聊天的消息内容展示**
 
-![image-20241209194246391](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\image-20241209194246391.png)
+![image-20241209194246391](.\assert\image-20241209194246391.png)
 
 **用户实时对话部分**
 
-![image-20241210212718114](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\image-20241210212718114.png)
+![image-20241210212718114](.\assert\image-20241210212718114.png)
 
 **实现显示Thread消息提示**
 
-![image-20241212171943112](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\image-20241212171943112.png)
+![image-20241212171943112](.\assert\image-20241212171943112.png)
 
 **实现展示用户的信息**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-12-12_20-58-33.png)
+![](.\assert\Snipaste_2024-12-12_20-58-33.png)
 
 **搭建好用户信息展示页并实现修改用户权限和删除remove功能，leave功能还有问题**
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-12-13_16-32-46.png)
+![](.\assert\Snipaste_2024-12-13_16-32-46.png)
 
-![](D:\Codes\前端学习\16-全栈项目\real-time-slack-clone\assert\Snipaste_2024-12-13_16-33-23.png)
+![](.\assert\Snipaste_2024-12-13_16-33-23.png)
+
+**实现搜索框的功能**
+
+![](.\assert\Snipaste_2024-12-13_18-01-20.png)
+
+![](.\assert\Snipaste_2024-12-13_18-01-05.png)
 
 项目中暂存的问题       
 
