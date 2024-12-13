@@ -27,7 +27,7 @@ export const Toolbar = ({
         {/* 表情选择器 */}
         <EmojiPopover
           hint="Add reaction"
-          onEmojiSelect={(emoji) => handleReaction(emoji.native)}
+          onEmojiSelect={(emoji) => handleReaction(emoji)}
         >
           <Button variant="ghost" size="iconSm" disabled={isPending}>
             <Smile className="size-4" />

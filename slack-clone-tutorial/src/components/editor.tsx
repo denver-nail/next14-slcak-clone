@@ -14,7 +14,6 @@ import { Hint } from "./hint";
 import { EmojiPopover } from "./emoji-popover";
 import { Delta, Op } from "quill/core";
 import { cn } from "@/lib/utils";
-import { type Skin } from "@emoji-mart/data";
 import Image from "next/image";
 //提交函数参数的声明
 type EditorValue = {
@@ -152,10 +151,10 @@ const Editor = ({
   };
   const isEmpty = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0; //判断编辑区是否为空
   //表情选择好后的回调函数
-  const onEmojiSelect = (emoji: Skin) => {
+  const onEmojiSelect = (emojiValue: string) => {
     const quill = quillRef.current;
     //将emoji插入编辑区
-    quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
+    quill?.insertText(quill?.getSelection()?.index || 0, emojiValue);
   };
   return (
     <div className="flex flex-col">

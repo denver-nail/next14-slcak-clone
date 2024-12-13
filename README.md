@@ -15,6 +15,7 @@
 11. [emoji-mart - npm (npmjs.com)](https://www.npmjs.com/package/emoji-mart)
 12. [date-fns - npm (npmjs.com)](https://www.npmjs.com/package/date-fns)
 13. [nuqs - npm (npmjs.com)](https://www.npmjs.com/package/nuqs)
+14. [emoji-picker-react - npm (npmjs.com)](https://www.npmjs.com/package/emoji-picker-react)
 
     
 
