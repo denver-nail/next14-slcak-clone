@@ -10,9 +10,14 @@ import {
 import { useCurrentUser } from "../api/use-current-user";
 import { Loader, LogOut } from "lucide-react";
 import { useAuthActions } from "@convex-dev/auth/react";
+
 export const UserButton = () => {
   //使用convexAuth的登出接口函数
   const { signOut } = useAuthActions();
+
+  const logout = () => {
+    signOut();
+  };
   //调用封装的获取当前用户信息的hook
   const { data: user, isLoading } = useCurrentUser();
   if (isLoading) {
@@ -21,6 +26,7 @@ export const UserButton = () => {
   if (!user) {
     return null;
   }
+
   const { image, name } = user;
   //设置头像图片展示失败后显示的文字内容
   const avatarFallback = name!.charAt(0).toUpperCase();
@@ -36,7 +42,7 @@ export const UserButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" side="right" className="w-60">
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => signOut()} className="h-10">
+          <DropdownMenuItem onClick={() => logout()} className="h-10">
             <LogOut className="mr-2 h-4 w-4" />
             <span>Log Out</span>
           </DropdownMenuItem>

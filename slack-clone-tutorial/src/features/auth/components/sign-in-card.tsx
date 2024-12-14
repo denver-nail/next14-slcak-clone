@@ -15,10 +15,12 @@ import { Separator } from "@radix-ui/react-separator";
 import { SignFlow } from "../types";
 import { useState } from "react";
 import { TriangleAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
 interface SignInCardProps {
   setState: (state: SignFlow) => void;
 }
 export const SignInCard = ({ setState }: SignInCardProps) => {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [pending, setPending] = useState(false);
@@ -44,6 +46,10 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
       .finally(() => {
         setPending(false);
       });
+  };
+  const signUpClick = () => {
+    router.replace("/auth");
+    setState("signUp");
   };
   return (
     <Card className=" w-full h-full p-8">
@@ -117,7 +123,7 @@ export const SignInCard = ({ setState }: SignInCardProps) => {
         <p className="text-xs text-muted-foreground">
           Don&apos;t have an account?
           <span
-            onClick={() => setState("signUp")}
+            onClick={signUpClick}
             className="text-sky-700 hover:underline cursor-pointer"
           >
             Sign up
