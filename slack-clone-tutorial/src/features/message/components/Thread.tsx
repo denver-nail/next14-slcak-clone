@@ -124,7 +124,7 @@ export const Thread = ({ messageId, onClose }: ThreadProps) => {
       //调用创建一个message的API
       await createMessage(value, { throwError: true });
       setEditorKey((prev) => prev + 1);
-    } catch (error) {
+    } catch (_error) {
       toast.error("Failed to send message");
     } finally {
       setIsPending(false);
